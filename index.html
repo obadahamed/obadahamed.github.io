@@ -6,531 +6,290 @@
 <title>NEPHOS — Obada Hamed</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --yellow: #FFB800;
-    --yellow-dim: #cc9200;
-    --black: #080808;
-    --dark: #0f0f0f;
-    --card: #111111;
-    --border: #1e1e1e;
-    --text: #c8c8c8;
-    --text-dim: #555;
-    --green: #39FF14;
-  }
+/* ===== TOKENS ===== */
+:root {
+  --yellow: #FFB800; --yellow-dim: #cc9200;
+  --black: #080808; --dark: #0f0f0f;
+  --card: #111111; --border: #1e1e1e;
+  --text: #c8c8c8; --text-dim: #555;
+  --green: #39FF14; --red: #ff6b6b;
+}
+/* ===== BASE ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+::selection { background: var(--yellow); color: #000; }
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; cursor: none; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+/* ===== CURSOR ===== */
+.cursor { width: 12px; height: 12px; background: var(--yellow); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.1s; mix-blend-mode: difference; }
+.cursor-ring { width: 36px; height: 36px; border: 1px solid var(--yellow); border-radius: 50%; position: fixed; pointer-events: none; z-index: 9998; transition: all 0.15s ease; opacity: 0.5; }
 
-  ::selection { background: var(--yellow); color: #000; }
+/* ===== SCANLINES ===== */
+body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px); pointer-events: none; z-index: 100; }
 
-  html { scroll-behavior: smooth; }
+/* ===== NAV ===== */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; padding: 1.2rem 3rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); background: rgba(8,8,8,0.92); backdrop-filter: blur(12px); }
+.nav-logo { font-size: 1rem; font-weight: 700; color: var(--yellow); letter-spacing: 0.15em; text-decoration: none; font-family: 'DM Mono', monospace; }
+.nav-logo span { color: var(--text-dim); font-weight: 300; }
+.nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+.nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; font-family: 'DM Sans', sans-serif; font-weight: 500; }
+.nav-links a:hover { color: var(--yellow); }
+.nav-db-btn { background: var(--yellow); color: #000; border: none; font-family: 'DM Sans', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.45rem 1rem; cursor: none; transition: background 0.2s; }
+.nav-db-btn:hover { background: #fff; }
 
-  body {
-    background: var(--black);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    overflow-x: hidden;
-    cursor: none;
-  }
+/* ===== HERO ===== */
+#hero { min-height: 100vh; display: flex; align-items: center; padding: 8rem 3rem 4rem; position: relative; overflow: hidden; }
+.hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,184,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,184,0,0.03) 1px, transparent 1px); background-size: 60px 60px; }
+.hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,184,0,0.06) 0%, transparent 70%); top: 50%; left: 20%; transform: translate(-50%, -50%); pointer-events: none; }
+.hero-content { position: relative; z-index: 2; max-width: 900px; }
+.hero-tag { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--yellow); text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.8rem; }
+.hero-tag::before { content: ''; width: 30px; height: 1px; background: var(--yellow); }
+.hero-name { font-family: 'Outfit', sans-serif; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; color: #fff; margin-bottom: 0.5rem; }
+.hero-name .accent { color: var(--yellow); }
+.hero-alias { font-size: 1rem; color: var(--text-dim); letter-spacing: 0.3em; margin-bottom: 2rem; }
+.hero-alias span { color: var(--yellow); font-weight: 700; }
+.typewriter-wrap { font-size: 1rem; color: var(--text); margin-bottom: 3rem; height: 1.5rem; }
+.typewriter-wrap::before { content: '> '; color: var(--yellow); }
+#typewriter { border-right: 2px solid var(--yellow); padding-right: 2px; }
+.hero-stats { display: flex; gap: 3rem; margin-bottom: 3rem; }
+.stat-num { font-size: 2rem; font-weight: 700; color: var(--yellow); line-height: 1; font-family: 'Outfit', sans-serif; }
+.stat-label { font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 0.3rem; }
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn { padding: 0.75rem 1.8rem; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; border: none; cursor: none; transition: all 0.2s; font-weight: 600; }
+.btn-primary { background: var(--yellow); color: #000; font-weight: 700; }
+.btn-primary:hover { background: #fff; }
+.btn-outline { background: transparent; color: var(--yellow); border: 1px solid var(--yellow); }
+.btn-outline:hover { background: var(--yellow); color: #000; }
 
-  /* Custom cursor */
-  .cursor {
-    width: 12px; height: 12px;
-    background: var(--yellow);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.1s;
-    mix-blend-mode: difference;
-  }
-  .cursor-ring {
-    width: 36px; height: 36px;
-    border: 1px solid var(--yellow);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9998;
-    transition: all 0.15s ease;
-    opacity: 0.5;
-  }
+/* ===== SECTIONS ===== */
+section { padding: 6rem 3rem; }
+.section-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 3rem; }
+.section-num { font-size: 0.65rem; color: var(--yellow); letter-spacing: 0.3em; }
+.section-title { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 700; color: #fff; letter-spacing: -0.03em; }
+.section-line { flex: 1; height: 1px; background: var(--border); max-width: 200px; }
 
-  /* Scanline overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.08) 2px,
-      rgba(0,0,0,0.08) 4px
-    );
-    pointer-events: none;
-    z-index: 100;
-  }
+/* ABOUT */
+#about { background: var(--dark); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+.about-text p { font-size: 0.9rem; line-height: 1.8; color: var(--text); margin-bottom: 1.2rem; }
+.about-text p strong { color: var(--yellow); font-weight: 500; }
+.about-info { display: flex; flex-direction: column; gap: 0.8rem; }
+.info-row { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 1rem; background: var(--card); border: 1px solid var(--border); font-size: 0.75rem; }
+.info-key { color: var(--text-dim); letter-spacing: 0.1em; }
+.info-val { color: var(--yellow); font-weight: 500; }
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 50;
-    padding: 1.2rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border);
-    background: rgba(8,8,8,0.92);
-    backdrop-filter: blur(12px);
-  }
-  .nav-logo {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--yellow);
-    letter-spacing: 0.15em;
-    text-decoration: none;
-    font-family: 'DM Mono', monospace;
-  }
-  .nav-logo span { color: var(--text-dim); font-weight: 300; }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    color: var(--text-dim);
-    text-decoration: none;
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-  }
-  .nav-links a:hover { color: var(--yellow); }
+/* SKILLS */
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.skill-cat { background: var(--card); padding: 2rem; }
+.skill-cat-title { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--yellow); margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.skill-tag { padding: 0.3rem 0.7rem; background: var(--dark); border: 1px solid var(--border); font-size: 0.7rem; color: var(--text); letter-spacing: 0.05em; transition: all 0.2s; }
+.skill-tag:hover { border-color: var(--yellow); color: var(--yellow); }
 
-  /* HERO */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 8rem 3rem 4rem;
-    position: relative;
-    overflow: hidden;
-  }
+/* REPOS */
+#work { background: var(--black); }
+.repos-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.repo-card { background: var(--card); padding: 2rem; text-decoration: none; display: block; transition: background 0.2s; position: relative; overflow: hidden; }
+.repo-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; background: var(--yellow); transition: height 0.3s; }
+.repo-card:hover { background: #161616; }
+.repo-card:hover::before { height: 100%; }
+.repo-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+.repo-icon { font-size: 1.2rem; }
+.repo-tag { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); border: 1px solid var(--border); padding: 0.2rem 0.6rem; }
+.repo-name { font-size: 0.9rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; letter-spacing: 0.02em; }
+.repo-desc { font-size: 0.75rem; color: var(--text-dim); line-height: 1.6; }
 
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,184,0,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,184,0,0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
+/* CTF */
+#ctf { background: var(--dark); }
+.ctf-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.ctf-item { background: var(--card); padding: 1.5rem 2rem; display: grid; grid-template-columns: auto 1fr auto auto; gap: 2rem; align-items: center; text-decoration: none; transition: background 0.2s; }
+.ctf-item:hover { background: #161616; }
+.ctf-num { font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.1em; width: 2rem; }
+.ctf-name { font-size: 0.9rem; font-weight: 600; color: #fff; margin-bottom: 0.3rem; }
+.ctf-meta { font-size: 0.7rem; color: var(--text-dim); }
+.ctf-diff { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid; }
+.diff-easy { color: var(--green); border-color: var(--green); }
+.diff-medium { color: var(--yellow); border-color: var(--yellow); }
+.ctf-arrow { color: var(--text-dim); font-size: 0.8rem; }
 
-  .hero-glow {
-    position: absolute;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(255,184,0,0.06) 0%, transparent 70%);
-    top: 50%; left: 20%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-  }
+/* CERTS */
+#certs { background: var(--black); }
+.certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.cert-card { background: var(--card); padding: 2rem; }
+.cert-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+.cert-name { font-size: 0.85rem; font-weight: 600; color: #fff; margin-bottom: 0.4rem; }
+.cert-issuer { font-size: 0.7rem; color: var(--yellow); letter-spacing: 0.1em; margin-bottom: 0.3rem; }
+.cert-status { font-size: 0.65rem; color: var(--text-dim); }
 
-  .hero-content { position: relative; z-index: 2; max-width: 900px; }
+/* CONTACT */
+#contact { background: var(--dark); text-align: center; }
+.contact-title { font-family: 'Outfit', sans-serif; font-size: clamp(2rem, 5vw, 4rem); font-weight: 800; color: #fff; letter-spacing: -0.03em; margin-bottom: 1rem; }
+.contact-title .accent { color: var(--yellow); }
+.contact-sub { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 3rem; letter-spacing: 0.05em; }
+.contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+.contact-link { display: flex; align-items: center; gap: 0.6rem; padding: 0.8rem 1.5rem; background: var(--card); border: 1px solid var(--border); color: var(--text); text-decoration: none; font-size: 0.75rem; letter-spacing: 0.1em; transition: all 0.2s; }
+.contact-link:hover { border-color: var(--yellow); color: var(--yellow); }
 
-  .hero-tag {
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    color: var(--yellow);
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
-  .hero-tag::before {
-    content: '';
-    width: 30px; height: 1px;
-    background: var(--yellow);
-  }
+/* FOOTER */
+footer { padding: 2rem 3rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 0.65rem; color: var(--text-dim); letter-spacing: 0.1em; }
 
-  .hero-name {
-    font-family: 'Outfit', sans-serif;
-    font-size: clamp(3rem, 8vw, 6.5rem);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    color: #fff;
-    margin-bottom: 0.5rem;
-  }
-  .hero-name .accent { color: var(--yellow); }
+/* ANIMATIONS */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+.fade-up { opacity: 0; animation: fadeUp 0.6s ease forwards; }
+.delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; } .delay-4 { animation-delay: 0.4s; } .delay-5 { animation-delay: 0.5s; }
 
-  .hero-alias {
-    font-size: 1rem;
-    color: var(--text-dim);
-    letter-spacing: 0.3em;
-    margin-bottom: 2rem;
-  }
-  .hero-alias span {
-    color: var(--yellow);
-    font-weight: 700;
-  }
+/* ===== DASHBOARD ===== */
+.dashboard { position: fixed; inset: 0; z-index: 200; display: flex; background: var(--black); overflow: hidden; }
 
-  .typewriter-wrap {
-    font-size: 1rem;
-    color: var(--text);
-    margin-bottom: 3rem;
-    height: 1.5rem;
-  }
-  .typewriter-wrap::before { content: '> '; color: var(--yellow); }
-  #typewriter { border-right: 2px solid var(--yellow); padding-right: 2px; }
+/* -- sidebar -- */
+.db-sidebar { width: 230px; min-width: 230px; background: var(--dark); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 1.4rem 0.9rem; overflow-y: auto; }
+.db-logo { font-family: 'DM Mono', monospace; font-size: 0.88rem; font-weight: 700; color: var(--yellow); letter-spacing: 0.15em; margin-bottom: 0.9rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--border); }
+.db-logo span { color: var(--text-dim); font-weight: 300; }
+.db-back { background: transparent; border: 1px solid var(--border); color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 0.7rem; padding: 0.4rem 0.75rem; cursor: none; margin-bottom: 1.1rem; transition: all 0.2s; text-align: left; width: 100%; }
+.db-back:hover { border-color: var(--yellow); color: var(--yellow); }
+.db-nav { display: flex; flex-direction: column; gap: 2px; margin-bottom: 1.2rem; }
+.db-nav-btn { background: transparent; border: none; color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500; padding: 0.65rem 0.75rem; cursor: none; text-align: left; border-radius: 3px; transition: all 0.15s; }
+.db-nav-btn:hover { background: rgba(255,184,0,0.05); color: var(--text); }
+.db-nav-btn.active { background: rgba(255,184,0,0.1); color: var(--yellow); }
 
-  .hero-stats {
-    display: flex;
-    gap: 3rem;
-    margin-bottom: 3rem;
-  }
-  .stat { }
-  .stat-num {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--yellow);
-    line-height: 1;
-    font-family: 'Outfit', sans-serif;
-  }
-  .stat-label {
-    font-size: 0.7rem;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-top: 0.3rem;
-    font-family: 'DM Sans', sans-serif;
-  }
+/* pomodoro widget */
+.db-pomo { margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); }
+.db-pomo-lbl { font-size: 0.58rem; color: var(--text-dim); letter-spacing: 0.15em; text-transform: uppercase; text-align: center; margin-bottom: 0.4rem; }
+#pomo-display { font-family: 'DM Mono', monospace; font-size: 1.75rem; font-weight: 700; color: var(--yellow); text-align: center; margin-bottom: 0.25rem; }
+.pomo-phase { font-size: 0.58rem; color: var(--text-dim); text-align: center; margin-bottom: 0.4rem; letter-spacing: 0.1em; }
+.pomo-ctrl { display: flex; gap: 3px; justify-content: center; margin-bottom: 5px; }
+.pomo-btn { background: transparent; border: 1px solid var(--border); color: var(--text); font-size: 0.68rem; padding: 0.22rem 0.5rem; cursor: none; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
+.pomo-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+.pomo-modes { display: flex; gap: 3px; justify-content: center; }
+.pomo-mode-btn { background: transparent; border: 1px solid var(--border); color: var(--text-dim); font-size: 0.62rem; padding: 0.18rem 0.45rem; cursor: none; transition: all 0.15s; font-family: 'DM Mono', monospace; }
+.pomo-mode-btn.active { background: var(--yellow); color: #000; border-color: var(--yellow); }
+.pomo-mode-btn:hover:not(.active) { border-color: var(--text); color: var(--text); }
 
-  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+/* -- main area -- */
+.db-main { flex: 1; overflow-y: auto; }
+.db-content { max-width: 760px; margin: 0 auto; padding: 2rem; }
+.db-view-hd { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; padding-bottom: 0.9rem; border-bottom: 1px solid var(--border); }
+.db-view-hd h2 { font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 700; color: #fff; }
+.db-view-sub { font-size: 0.68rem; color: var(--text-dim); font-family: 'DM Mono', monospace; text-align: right; margin-top: 0.2rem; }
+.db-sec { margin-bottom: 1.7rem; }
+.db-sec-ttl { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.65rem; }
+.db-sec-ttl.is-overdue { color: var(--red); }
+.db-sec-ttl.is-upcoming { color: var(--yellow); }
 
-  .btn {
-    padding: 0.75rem 1.8rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: none;
-    cursor: none;
-    transition: all 0.2s;
-    font-weight: 600;
-  }
-  .btn-primary {
-    background: var(--yellow);
-    color: #000;
-    font-weight: 700;
-  }
-  .btn-primary:hover { background: #fff; }
-  .btn-outline {
-    background: transparent;
-    color: var(--yellow);
-    border: 1px solid var(--yellow);
-  }
-  .btn-outline:hover { background: var(--yellow); color: #000; }
+/* progress bar */
+.db-pbar-wrap { height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 0.28rem; }
+.db-pbar-fill { height: 3px; background: var(--yellow); border-radius: 2px; transition: width 0.4s; }
+.db-pbar-lbl { font-size: 0.62rem; color: var(--text-dim); margin-bottom: 0.75rem; }
 
-  /* SECTIONS */
-  section { padding: 6rem 3rem; }
+/* task / routine rows */
+.db-task, .db-routine { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.85rem; background: var(--card); border: 1px solid var(--border); margin-bottom: 3px; cursor: none; transition: border-color 0.15s; font-size: 0.77rem; user-select: none; }
+.db-task:hover, .db-routine:hover { border-color: rgba(255,184,0,0.35); }
+.db-task.is-done, .db-routine.is-done { opacity: 0.42; }
+.db-task.is-done .t-txt, .db-routine.is-done .t-txt { text-decoration: line-through; color: var(--text-dim); }
+.db-task.is-overdue { border-left: 2px solid var(--red); }
+.db-task.is-upcoming { opacity: 0.5; pointer-events: none; }
+.t-chk { color: var(--yellow); font-family: 'DM Mono', monospace; font-size: 0.82rem; min-width: 14px; }
+.t-txt { flex: 1; color: var(--text); }
+.t-est { font-size: 0.6rem; color: var(--text-dim); min-width: 32px; text-align: right; }
+.t-wk { font-size: 0.58rem; color: var(--text-dim); letter-spacing: 0.04em; min-width: 44px; text-align: right; }
 
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 3rem;
-  }
-  .section-num {
-    font-size: 0.65rem;
-    color: var(--yellow);
-    letter-spacing: 0.3em;
-  }
-  .section-title {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2rem;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.03em;
-  }
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-    max-width: 200px;
-  }
+/* roadmap week cards */
+.db-wk-card { border: 1px solid var(--border); background: var(--card); margin-bottom: 6px; }
+.db-wk-card.is-current { border-color: var(--yellow); }
+.db-wk-head { display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1rem; cursor: none; transition: background 0.15s; }
+.db-wk-head:hover { background: rgba(255,184,0,0.03); }
+.db-wk-l { display: flex; align-items: center; gap: 0.65rem; }
+.db-wk-num { font-size: 0.6rem; color: var(--text-dim); letter-spacing: 0.1em; font-family: 'DM Mono', monospace; }
+.db-wk-ttl { font-size: 0.8rem; font-weight: 600; color: #fff; }
+.db-curr-badge { background: var(--yellow); color: #000; font-size: 0.52rem; font-weight: 700; padding: 0.1rem 0.38rem; letter-spacing: 0.1em; }
+.db-wk-r { display: flex; align-items: center; gap: 0.6rem; }
+.db-wk-pct { font-size: 0.72rem; color: var(--yellow); font-family: 'DM Mono', monospace; }
+.db-wk-arr { font-size: 0.65rem; color: var(--text-dim); }
+.db-wk-pbar { height: 2px; background: var(--border); }
+.db-wk-pbar-fill { height: 2px; background: var(--yellow); }
+.db-wk-body { padding: 0.4rem 0.85rem 0.85rem; border-top: 1px solid var(--border); }
+.db-rtn-grp { margin-top: 0.4rem; padding-top: 0.4rem; border-top: 1px solid var(--border); }
 
-  /* ABOUT */
-  #about { background: var(--dark); }
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: start;
-  }
-  .about-text p {
-    font-size: 0.9rem;
-    line-height: 1.8;
-    color: var(--text);
-    margin-bottom: 1.2rem;
-  }
-  .about-text p strong { color: var(--yellow); font-weight: 500; }
+/* skills */
+.db-sk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 1.5rem; }
+.db-sk-card { background: var(--card); padding: 1.15rem; }
+.db-sk-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.55rem; }
+.db-sk-name { font-size: 0.8rem; font-weight: 600; color: #fff; }
+.db-sk-pct { font-family: 'DM Mono', monospace; color: var(--yellow); font-size: 0.8rem; }
+.db-sk-bar { background: var(--border); height: 3px; border-radius: 2px; margin-bottom: 0.35rem; }
+.db-sk-bar-fill { height: 3px; background: var(--yellow); border-radius: 2px; transition: width 0.5s; }
+.db-sk-cnt { font-size: 0.6rem; color: var(--text-dim); }
 
-  .about-info { display: flex; flex-direction: column; gap: 0.8rem; }
-  .info-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.7rem 1rem;
-    background: var(--card);
-    border: 1px solid var(--border);
-    font-size: 0.75rem;
-  }
-  .info-key { color: var(--text-dim); letter-spacing: 0.1em; }
-  .info-val { color: var(--yellow); font-weight: 500; }
+/* rooms */
+.db-rm-filters { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 1rem; }
+.db-flt { background: transparent; border: 1px solid var(--border); color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 0.7rem; padding: 0.32rem 0.65rem; cursor: none; transition: all 0.15s; }
+.db-flt:hover { border-color: var(--text); color: var(--text); }
+.db-flt.active { border-color: var(--yellow); color: var(--yellow); background: rgba(255,184,0,0.05); }
+.db-rm-list { display: flex; flex-direction: column; gap: 3px; }
+.db-rm-card { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 0.9rem; background: var(--card); border: 1px solid var(--border); gap: 0.9rem; transition: border-color 0.15s; }
+.db-rm-card:hover { border-color: rgba(255,184,0,0.2); }
+.db-rm-info { flex: 1; min-width: 0; }
+.db-rm-name { font-size: 0.8rem; color: #fff; text-decoration: none; font-weight: 500; display: block; margin-bottom: 0.22rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.db-rm-name:hover { color: var(--yellow); }
+.db-rm-meta { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.db-rm-cat { font-size: 0.58rem; color: var(--text-dim); letter-spacing: 0.07em; border: 1px solid var(--border); padding: 0.08rem 0.35rem; }
+.db-rm-diff { font-size: 0.58rem; letter-spacing: 0.07em; padding: 0.08rem 0.35rem; border: 1px solid; }
+.rm-easy { color: var(--green); border-color: var(--green); }
+.rm-medium { color: var(--yellow); border-color: var(--yellow); }
+.rm-hard { color: var(--red); border-color: var(--red); }
+.db-rm-acts { display: flex; gap: 3px; flex-shrink: 0; }
+.db-st-btn { background: transparent; border: 1px solid var(--border); color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-size: 0.6rem; padding: 0.18rem 0.42rem; cursor: none; transition: all 0.15s; white-space: nowrap; }
+.db-st-btn:hover { border-color: var(--text); color: var(--text); }
+.db-st-btn.st-pending { border-color: #666; color: #999; background: rgba(150,150,150,0.07); }
+.db-st-btn.st-inprogress { border-color: var(--yellow); color: var(--yellow); background: rgba(255,184,0,0.07); }
+.db-st-btn.st-done { border-color: var(--green); color: var(--green); background: rgba(57,255,20,0.07); }
 
-  /* SKILLS */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-  .skill-cat {
-    background: var(--card);
-    padding: 2rem;
-  }
-  .skill-cat-title {
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--yellow);
-    margin-bottom: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .skill-tag {
-    padding: 0.3rem 0.7rem;
-    background: var(--dark);
-    border: 1px solid var(--border);
-    font-size: 0.7rem;
-    color: var(--text);
-    letter-spacing: 0.05em;
-    transition: all 0.2s;
-  }
-  .skill-tag:hover { border-color: var(--yellow); color: var(--yellow); }
+/* settings */
+.db-set-sec { margin-bottom: 1.8rem; }
+.db-set-ttl { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.8rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+.db-set-row { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 0; border-bottom: 1px solid rgba(30,30,30,0.6); gap: 1rem; }
+.db-set-lbl { font-size: 0.77rem; font-weight: 600; color: #fff; margin-bottom: 0.18rem; }
+.db-set-desc { font-size: 0.66rem; color: var(--text-dim); }
+.db-btn { background: transparent; border: 1px solid var(--border); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.7rem; padding: 0.38rem 0.85rem; cursor: none; transition: all 0.15s; white-space: nowrap; }
+.db-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+.db-btn.is-on { background: var(--yellow); color: #000; border-color: var(--yellow); }
+.db-btn.danger { border-color: var(--red); color: var(--red); }
+.db-btn.danger:hover { background: rgba(255,107,107,0.08); }
+.db-time-in { background: var(--card); border: 1px solid var(--border); color: var(--text); font-family: 'DM Mono', monospace; font-size: 0.77rem; padding: 0.35rem 0.55rem; cursor: text; color-scheme: dark; }
 
-  /* CTF / REPOS */
-  #work { background: var(--black); }
-  .repos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-  .repo-card {
-    background: var(--card);
-    padding: 2rem;
-    text-decoration: none;
-    display: block;
-    transition: background 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .repo-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px; height: 0;
-    background: var(--yellow);
-    transition: height 0.3s;
-  }
-  .repo-card:hover { background: #161616; }
-  .repo-card:hover::before { height: 100%; }
+/* pomo full (settings view) */
+.pomo-big { text-align: center; padding: 1.2rem; background: var(--card); border: 1px solid var(--border); }
+.pomo-big-time { font-family: 'DM Mono', monospace; font-size: 2.8rem; font-weight: 700; color: var(--yellow); margin-bottom: 0.3rem; }
+.pomo-big-phase { font-size: 0.7rem; color: var(--text-dim); margin-bottom: 1rem; letter-spacing: 0.1em; }
+.pomo-big-ctrl { display: flex; gap: 0.4rem; justify-content: center; margin-bottom: 0.6rem; }
+.pomo-big-modes { display: flex; gap: 0.4rem; justify-content: center; }
 
-  .repo-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-  }
-  .repo-icon { font-size: 1.2rem; }
-  .repo-tag {
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    border: 1px solid var(--border);
-    padding: 0.2rem 0.6rem;
-  }
-  .repo-name {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.02em;
-  }
-  .repo-desc {
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    line-height: 1.6;
-  }
+/* error banner */
+#err-banner { display: none; position: fixed; top: 0; left: 0; right: 0; background: var(--red); color: #fff; padding: 0.45rem 1rem; font-size: 0.75rem; z-index: 10000; text-align: center; font-family: 'DM Mono', monospace; }
 
-  /* CTF WRITEUPS */
-  #ctf { background: var(--dark); }
-  .ctf-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
-  .ctf-item {
-    background: var(--card);
-    padding: 1.5rem 2rem;
-    display: grid;
-    grid-template-columns: auto 1fr auto auto;
-    gap: 2rem;
-    align-items: center;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-  .ctf-item:hover { background: #161616; }
-  .ctf-num {
-    font-size: 0.65rem;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-    width: 2rem;
-  }
-  .ctf-info { }
-  .ctf-name {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 0.3rem;
-  }
-  .ctf-meta {
-    font-size: 0.7rem;
-    color: var(--text-dim);
-  }
-  .ctf-diff {
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 0.3rem 0.8rem;
-    border: 1px solid;
-  }
-  .diff-easy { color: var(--green); border-color: var(--green); }
-  .diff-medium { color: var(--yellow); border-color: var(--yellow); }
-  .ctf-arrow { color: var(--text-dim); font-size: 0.8rem; }
-
-  /* CERTS */
-  #certs { background: var(--black); }
-  .certs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-  .cert-card {
-    background: var(--card);
-    padding: 2rem;
-  }
-  .cert-icon { font-size: 1.5rem; margin-bottom: 1rem; }
-  .cert-name {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 0.4rem;
-  }
-  .cert-issuer {
-    font-size: 0.7rem;
-    color: var(--yellow);
-    letter-spacing: 0.1em;
-    margin-bottom: 0.3rem;
-  }
-  .cert-status {
-    font-size: 0.65rem;
-    color: var(--text-dim);
-  }
-
-  /* CONTACT */
-  #contact { background: var(--dark); text-align: center; }
-  .contact-title {
-    font-family: 'Outfit', sans-serif;
-    font-size: clamp(2rem, 5vw, 4rem);
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: -0.03em;
-    margin-bottom: 1rem;
-  }
-  .contact-title .accent { color: var(--yellow); }
-  .contact-sub {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    margin-bottom: 3rem;
-    letter-spacing: 0.05em;
-  }
-  .contact-links {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-  .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.8rem 1.5rem;
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: var(--text);
-    text-decoration: none;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    transition: all 0.2s;
-  }
-  .contact-link:hover { border-color: var(--yellow); color: var(--yellow); }
-
-  /* FOOTER */
-  footer {
-    padding: 2rem 3rem;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.65rem;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-  }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .fade-up {
-    opacity: 0;
-    animation: fadeUp 0.6s ease forwards;
-  }
-  .delay-1 { animation-delay: 0.1s; }
-  .delay-2 { animation-delay: 0.2s; }
-  .delay-3 { animation-delay: 0.3s; }
-  .delay-4 { animation-delay: 0.4s; }
-  .delay-5 { animation-delay: 0.5s; }
-
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    section { padding: 4rem 1.5rem; }
-    #hero { padding: 6rem 1.5rem 3rem; }
-    .hero-stats { gap: 1.5rem; }
-    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .ctf-item { grid-template-columns: 1fr auto; }
-    .ctf-num { display: none; }
-    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
-  }
+/* responsive */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  section { padding: 4rem 1.5rem; }
+  #hero { padding: 6rem 1.5rem 3rem; }
+  .hero-stats { gap: 1.5rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .ctf-item { grid-template-columns: 1fr auto; }
+  .ctf-num { display: none; }
+  footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  .db-sidebar { width: 185px; min-width: 185px; }
+  .db-rm-card { flex-direction: column; align-items: flex-start; }
+  .db-rm-acts { width: 100%; }
+  .db-st-btn { flex: 1; text-align: center; }
+}
 </style>
 </head>
 <body>
+
+<!-- Error banner -->
+<div id="err-banner"></div>
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -544,8 +303,49 @@
     <li><a href="#ctf">CTF</a></li>
     <li><a href="#certs">Certs</a></li>
     <li><a href="#contact">Contact</a></li>
+    <li><button class="nav-db-btn" onclick="openDashboard()">⚡ Dashboard</button></li>
   </ul>
 </nav>
+
+<!-- ==================== DASHBOARD OVERLAY ==================== -->
+<div id="dashboard" class="dashboard" style="display:none;" aria-hidden="true">
+
+  <!-- Sidebar -->
+  <div class="db-sidebar">
+    <div class="db-logo">NEPHOS<span>.db</span></div>
+    <button class="db-back" onclick="closeDashboard()">← Portfolio</button>
+
+    <nav class="db-nav" role="navigation">
+      <button id="btn-today"    class="db-nav-btn active" onclick="showView('today')">   📅 Today</button>
+      <button id="btn-roadmap"  class="db-nav-btn"        onclick="showView('roadmap')"> 🗺 Roadmap</button>
+      <button id="btn-skills"   class="db-nav-btn"        onclick="showView('skills')">  ⚡ Skills</button>
+      <button id="btn-rooms"    class="db-nav-btn"        onclick="showView('rooms')">   🏠 Rooms</button>
+      <button id="btn-settings" class="db-nav-btn"        onclick="showView('settings')">⚙ Settings</button>
+    </nav>
+
+    <!-- Pomodoro widget -->
+    <div class="db-pomo">
+      <div class="db-pomo-lbl">🍅 Pomodoro</div>
+      <div id="pomo-display">25:00</div>
+      <div class="pomo-phase" id="pomo-phase-lbl">Focus Time</div>
+      <div class="pomo-ctrl">
+        <button class="pomo-btn" onclick="startPomo()">▶</button>
+        <button class="pomo-btn" onclick="pausePomo()">⏸</button>
+        <button class="pomo-btn" onclick="resetPomo()">↺</button>
+      </div>
+      <div class="pomo-modes">
+        <button id="pmode-25" class="pomo-mode-btn active" onclick="setPomoMode(25,5)">25/5</button>
+        <button id="pmode-50" class="pomo-mode-btn"        onclick="setPomoMode(50,10)">50/10</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content area -->
+  <div class="db-main" id="db-main">
+    <div class="db-content"><p style="color:var(--text-dim);font-size:0.8rem;">Loading…</p></div>
+  </div>
+</div>
+<!-- ==================== END DASHBOARD ==================== -->
 
 <!-- HERO -->
 <section id="hero">
@@ -553,30 +353,14 @@
   <div class="hero-glow"></div>
   <div class="hero-content">
     <div class="hero-tag fade-up delay-1">Cybersecurity Student</div>
-    <h1 class="hero-name fade-up delay-2">
-      Obada<br><span class="accent">Hamed</span>
-    </h1>
+    <h1 class="hero-name fade-up delay-2">Obada<br><span class="accent">Hamed</span></h1>
     <p class="hero-alias fade-up delay-3">alias: <span>NEPHOS</span></p>
-    <div class="typewriter-wrap fade-up delay-3">
-      <span id="typewriter"></span>
-    </div>
+    <div class="typewriter-wrap fade-up delay-3"><span id="typewriter"></span></div>
     <div class="hero-stats fade-up delay-4">
-      <div class="stat">
-        <div class="stat-num">30K</div>
-        <div class="stat-label">THM Rank</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">8/8</div>
-        <div class="stat-label">Google Certs</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">10+</div>
-        <div class="stat-label">CTFs Pwned</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">10+</div>
-        <div class="stat-label">Repos</div>
-      </div>
+      <div class="stat"><div class="stat-num">30K</div><div class="stat-label">THM Rank</div></div>
+      <div class="stat"><div class="stat-num">8/8</div><div class="stat-label">Google Certs</div></div>
+      <div class="stat"><div class="stat-num">10+</div><div class="stat-label">CTFs Pwned</div></div>
+      <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Repos</div></div>
     </div>
     <div class="hero-btns fade-up delay-5">
       <a href="https://github.com/obadahamed" class="btn btn-primary" target="_blank">View GitHub</a>
@@ -599,26 +383,11 @@
       <p>My approach: <strong>enumerate everything, understand the vulnerability, exploit it methodically, document it thoroughly.</strong></p>
     </div>
     <div class="about-info">
-      <div class="info-row">
-        <span class="info-key">Location</span>
-        <span class="info-val">Syria</span>
-      </div>
-      <div class="info-row">
-        <span class="info-key">Focus</span>
-        <span class="info-val">Red Team / Web Security</span>
-      </div>
-      <div class="info-row">
-        <span class="info-key">Platform</span>
-        <span class="info-val">TryHackMe — Top 30,000</span>
-      </div>
-      <div class="info-row">
-        <span class="info-key">Networking</span>
-        <span class="info-val">CCNA Background</span>
-      </div>
-      <div class="info-row">
-        <span class="info-key">Status</span>
-        <span class="info-val">GitHub Education (2026–2028)</span>
-      </div>
+      <div class="info-row"><span class="info-key">Location</span><span class="info-val">Syria</span></div>
+      <div class="info-row"><span class="info-key">Focus</span><span class="info-val">Red Team / Web Security</span></div>
+      <div class="info-row"><span class="info-key">Platform</span><span class="info-val">TryHackMe — Top 30,000</span></div>
+      <div class="info-row"><span class="info-key">Networking</span><span class="info-val">CCNA Background</span></div>
+      <div class="info-row"><span class="info-key">Status</span><span class="info-val">GitHub Education (2026–2028)</span></div>
     </div>
   </div>
 </section>
@@ -634,45 +403,34 @@
     <div class="skill-cat">
       <div class="skill-cat-title">🔴 Offensive</div>
       <div class="skill-tags">
-        <span class="skill-tag">Burp Suite</span>
-        <span class="skill-tag">Nmap</span>
-        <span class="skill-tag">Metasploit</span>
-        <span class="skill-tag">Gobuster</span>
-        <span class="skill-tag">Hydra</span>
-        <span class="skill-tag">SQLMap</span>
+        <span class="skill-tag">Burp Suite</span><span class="skill-tag">Nmap</span>
+        <span class="skill-tag">Metasploit</span><span class="skill-tag">Gobuster</span>
+        <span class="skill-tag">Hydra</span><span class="skill-tag">SQLMap</span>
         <span class="skill-tag">Kali Linux</span>
       </div>
     </div>
     <div class="skill-cat">
       <div class="skill-cat-title">🚩 CTF</div>
       <div class="skill-tags">
-        <span class="skill-tag">Steghide</span>
-        <span class="skill-tag">Binwalk</span>
-        <span class="skill-tag">John the Ripper</span>
-        <span class="skill-tag">CyberChef</span>
-        <span class="skill-tag">Netcat</span>
-        <span class="skill-tag">Base64</span>
+        <span class="skill-tag">Steghide</span><span class="skill-tag">Binwalk</span>
+        <span class="skill-tag">John the Ripper</span><span class="skill-tag">CyberChef</span>
+        <span class="skill-tag">Netcat</span><span class="skill-tag">Base64</span>
         <span class="skill-tag">Hash Cracking</span>
       </div>
     </div>
     <div class="skill-cat">
       <div class="skill-cat-title">💻 Programming</div>
       <div class="skill-tags">
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">Bash</span>
-        <span class="skill-tag">PowerShell</span>
-        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">Python</span><span class="skill-tag">Bash</span>
+        <span class="skill-tag">PowerShell</span><span class="skill-tag">SQL</span>
       </div>
     </div>
     <div class="skill-cat">
       <div class="skill-cat-title">🌐 Networking</div>
       <div class="skill-tags">
-        <span class="skill-tag">TCP/IP</span>
-        <span class="skill-tag">DNS</span>
-        <span class="skill-tag">HTTP/S</span>
-        <span class="skill-tag">Wireshark</span>
-        <span class="skill-tag">Cisco CCNA</span>
-        <span class="skill-tag">OSI Model</span>
+        <span class="skill-tag">TCP/IP</span><span class="skill-tag">DNS</span>
+        <span class="skill-tag">HTTP/S</span><span class="skill-tag">Wireshark</span>
+        <span class="skill-tag">Cisco CCNA</span><span class="skill-tag">OSI Model</span>
       </div>
     </div>
   </div>
@@ -687,50 +445,32 @@
   </div>
   <div class="repos-grid">
     <a href="https://github.com/obadahamed/Threat-Detection-Report-2022-Analysis" class="repo-card" target="_blank">
-      <div class="repo-top">
-        <span class="repo-icon">🔍</span>
-        <span class="repo-tag">Blue Team</span>
-      </div>
+      <div class="repo-top"><span class="repo-icon">🔍</span><span class="repo-tag">Blue Team</span></div>
       <div class="repo-name">Threat Detection Report 2022</div>
       <div class="repo-desc">Deep SOC analysis with MITRE ATT&CK mapping and detection engineering notes.</div>
     </a>
     <a href="https://github.com/obadahamed/PortSwigger-Labs" class="repo-card" target="_blank">
-      <div class="repo-top">
-        <span class="repo-icon">🌐</span>
-        <span class="repo-tag">Web Security</span>
-      </div>
+      <div class="repo-top"><span class="repo-icon">🌐</span><span class="repo-tag">Web Security</span></div>
       <div class="repo-name">PortSwigger Labs</div>
       <div class="repo-desc">SQLi, XSS, DOM-based vulnerabilities — lab writeups with payloads and methodology.</div>
     </a>
     <a href="https://github.com/obadahamed/TRY-HACK-ME" class="repo-card" target="_blank">
-      <div class="repo-top">
-        <span class="repo-icon">🚩</span>
-        <span class="repo-tag">CTF</span>
-      </div>
+      <div class="repo-top"><span class="repo-icon">🚩</span><span class="repo-tag">CTF</span></div>
       <div class="repo-name">TryHackMe</div>
       <div class="repo-desc">CTF writeups, Jr Pentester path notes, and Pre-Security fundamentals.</div>
     </a>
     <a href="https://github.com/obadahamed/Privilege-Escalation" class="repo-card" target="_blank">
-      <div class="repo-top">
-        <span class="repo-icon">🔺</span>
-        <span class="repo-tag">Privesc</span>
-      </div>
+      <div class="repo-top"><span class="repo-icon">🔺</span><span class="repo-tag">Privesc</span></div>
       <div class="repo-name">Privilege Escalation</div>
-      <div class="repo-desc">Linux & Windows privilege escalation techniques, commands, and GTFOBins references.</div>
+      <div class="repo-desc">Linux &amp; Windows privilege escalation techniques, commands, and GTFOBins references.</div>
     </a>
     <a href="https://github.com/obadahamed/Tools-and-Scripts" class="repo-card" target="_blank">
-      <div class="repo-top">
-        <span class="repo-icon">🐍</span>
-        <span class="repo-tag">Python</span>
-      </div>
-      <div class="repo-name">Tools & Scripts</div>
+      <div class="repo-top"><span class="repo-icon">🐍</span><span class="repo-tag">Python</span></div>
+      <div class="repo-name">Tools &amp; Scripts</div>
       <div class="repo-desc">Custom Python security tools — port scanner with banner grabbing and more.</div>
     </a>
     <a href="https://github.com/obadahamed/Google-Cybersecurity-Notes" class="repo-card" target="_blank">
-      <div class="repo-top">
-        <span class="repo-icon">🎓</span>
-        <span class="repo-tag">Notes</span>
-      </div>
+      <div class="repo-top"><span class="repo-icon">🎓</span><span class="repo-tag">Notes</span></div>
       <div class="repo-name">Google Cybersecurity Notes</div>
       <div class="repo-desc">Complete notes for all 8 Google Cybersecurity Certificate courses.</div>
     </a>
@@ -747,39 +487,23 @@
   <div class="ctf-list">
     <a href="https://github.com/obadahamed/TRY-HACK-ME/blob/main/CTF/Mr.Robot.md" class="ctf-item" target="_blank">
       <span class="ctf-num">01</span>
-      <div class="ctf-info">
-        <div class="ctf-name">Mr. Robot CTF</div>
-        <div class="ctf-meta">TryHackMe · Web · WordPress RCE · SUID Privesc · 3 Keys</div>
-      </div>
-      <span class="ctf-diff diff-medium">Medium</span>
-      <span class="ctf-arrow">→</span>
+      <div><div class="ctf-name">Mr. Robot CTF</div><div class="ctf-meta">TryHackMe · Web · WordPress RCE · SUID Privesc · 3 Keys</div></div>
+      <span class="ctf-diff diff-medium">Medium</span><span class="ctf-arrow">→</span>
     </a>
     <a href="https://github.com/obadahamed/TRY-HACK-ME/blob/main/CTF/Brooklyn_Nine_Nine.md" class="ctf-item" target="_blank">
-      <span class="ctf-num">04</span>
-      <div class="ctf-info">
-        <div class="ctf-name"># Brooklyn_Nine_Nine</div>
-        <div class="ctf-meta">TryHackMe · hydra, FTP</div>
-      </div>
-      <span class="ctf-diff diff-easy">Easy</span>
-      <span class="ctf-arrow">→</span>
+      <span class="ctf-num">02</span>
+      <div><div class="ctf-name">Brooklyn Nine Nine</div><div class="ctf-meta">TryHackMe · Hydra · FTP</div></div>
+      <span class="ctf-diff diff-easy">Easy</span><span class="ctf-arrow">→</span>
     </a>
     <a href="https://github.com/obadahamed/TRY-HACK-ME/blob/main/CTF/Agent_Sudo.md" class="ctf-item" target="_blank">
-      <span class="ctf-num">02</span>
-      <div class="ctf-info">
-        <div class="ctf-name">Agent Sudo</div>
-        <div class="ctf-meta">TryHackMe · Steganography · FTP Brute-Force · CVE-2019-14287</div>
-      </div>
-      <span class="ctf-diff diff-easy">Easy</span>
-      <span class="ctf-arrow">→</span>
+      <span class="ctf-num">03</span>
+      <div><div class="ctf-name">Agent Sudo</div><div class="ctf-meta">TryHackMe · Steganography · FTP Brute-Force · CVE-2019-14287</div></div>
+      <span class="ctf-diff diff-easy">Easy</span><span class="ctf-arrow">→</span>
     </a>
     <a href="https://github.com/obadahamed/TRY-HACK-ME/blob/main/CTF/Bounty_Hacker.md" class="ctf-item" target="_blank">
-      <span class="ctf-num">03</span>
-      <div class="ctf-info">
-        <div class="ctf-name">Bounty Hacker</div>
-        <div class="ctf-meta">TryHackMe · Anonymous FTP · SSH Brute-Force · sudo tar Privesc</div>
-      </div>
-      <span class="ctf-diff diff-easy">Easy</span>
-      <span class="ctf-arrow">→</span>
+      <span class="ctf-num">04</span>
+      <div><div class="ctf-name">Bounty Hacker</div><div class="ctf-meta">TryHackMe · Anonymous FTP · SSH Brute-Force · sudo tar Privesc</div></div>
+      <span class="ctf-diff diff-easy">Easy</span><span class="ctf-arrow">→</span>
     </a>
   </div>
 </section>
@@ -792,109 +516,45 @@
     <div class="section-line"></div>
   </div>
   <div class="certs-grid">
-    <div class="cert-card">
-      <div class="cert-icon">🎓</div>
-      <div class="cert-name">Google Cybersecurity Certificate</div>
-      <div class="cert-issuer">Google / Coursera</div>
-      <div class="cert-status">8/8 Courses Completed ✅</div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">🚩</div>
-      <div class="cert-name">Jr Penetration Tester</div>
-      <div class="cert-issuer">TryHackMe — Learning Path</div>
-      <div class="cert-status">30h 40min · Feb 18, 2026 ✅</div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">🛡️</div>
-      <div class="cert-name">Cyber Security 101</div>
-      <div class="cert-issuer">TryHackMe — Learning Path</div>
-      <div class="cert-status">45h 23min · Feb 22, 2026 ✅</div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">🔐</div>
-      <div class="cert-name">Pre Security</div>
-      <div class="cert-issuer">TryHackMe — Learning Path</div>
-      <div class="cert-status">7h 38min · Feb 6, 2026 ✅</div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">🎄</div>
-      <div class="cert-name">Advent of Cyber 2023</div>
-      <div class="cert-issuer">TryHackMe — 24 Challenges</div>
-      <div class="cert-status">Feb 28, 2026 ✅</div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">🎄</div>
-      <div class="cert-name">Advent of Cyber 2022</div>
-      <div class="cert-issuer">TryHackMe — Room</div>
-      <div class="cert-status">Feb 14, 2026 ✅</div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">🐍</div>
-      <div class="cert-name">Introduction to APIs in Python</div>
-      <div class="cert-issuer">DataCamp</div>
-      <div class="cert-status">2hrs · Feb 2, 2026 ✅</div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">⚙️</div>
-      <div class="cert-name">Intermediate Git</div>
-      <div class="cert-issuer">DataCamp</div>
-      <div class="cert-status">2hrs · Feb 26, 2026 ✅</div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">🎓</div>
-      <div class="cert-name">Google Cybersecurity</div>
-      <div class="cert-issuer">Google / Coursera — 9 Courses</div>
-      <div class="cert-status">Feb 4, 2026 ✅</div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">🌐</div>
-      <div class="cert-name">Web Fundamentals</div>
-      <div class="cert-issuer">TryHackMe — Learning Path</div>
-      <div class="cert-status">20h 50min · Feb 24, 2026 ✅</div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">🐍</div>
-      <div class="cert-name">Regular Expressions in Python</div>
-      <div class="cert-issuer">DataCamp</div>
-      <div class="cert-status">4hrs · Feb 10, 2026 ✅</div>
-    </div>
-    <div class="cert-card">
-      <div class="cert-icon">🌐</div>
-      <div class="cert-name">Cisco CyberOps Associate</div>
-      <div class="cert-issuer">Cisco</div>
-      <div class="cert-status">In Progress 🔄</div>
-    </div>
+    <div class="cert-card"><div class="cert-icon">🎓</div><div class="cert-name">Google Cybersecurity Certificate</div><div class="cert-issuer">Google / Coursera</div><div class="cert-status">8/8 Courses Completed ✅</div></div>
+    <div class="cert-card"><div class="cert-icon">🚩</div><div class="cert-name">Jr Penetration Tester</div><div class="cert-issuer">TryHackMe — Learning Path</div><div class="cert-status">30h 40min · Feb 18, 2026 ✅</div></div>
+    <div class="cert-card"><div class="cert-icon">🛡️</div><div class="cert-name">Cyber Security 101</div><div class="cert-issuer">TryHackMe — Learning Path</div><div class="cert-status">45h 23min · Feb 22, 2026 ✅</div></div>
+    <div class="cert-card"><div class="cert-icon">🔐</div><div class="cert-name">Pre Security</div><div class="cert-issuer">TryHackMe — Learning Path</div><div class="cert-status">7h 38min · Feb 6, 2026 ✅</div></div>
+    <div class="cert-card"><div class="cert-icon">🎄</div><div class="cert-name">Advent of Cyber 2023</div><div class="cert-issuer">TryHackMe — 24 Challenges</div><div class="cert-status">Feb 28, 2026 ✅</div></div>
+    <div class="cert-card"><div class="cert-icon">🎄</div><div class="cert-name">Advent of Cyber 2022</div><div class="cert-issuer">TryHackMe — Room</div><div class="cert-status">Feb 14, 2026 ✅</div></div>
+    <div class="cert-card"><div class="cert-icon">🐍</div><div class="cert-name">Introduction to APIs in Python</div><div class="cert-issuer">DataCamp</div><div class="cert-status">2hrs · Feb 2, 2026 ✅</div></div>
+    <div class="cert-card"><div class="cert-icon">⚙️</div><div class="cert-name">Intermediate Git</div><div class="cert-issuer">DataCamp</div><div class="cert-status">2hrs · Feb 26, 2026 ✅</div></div>
+    <div class="cert-card"><div class="cert-icon">🎓</div><div class="cert-name">Google Cybersecurity</div><div class="cert-issuer">Google / Coursera — 9 Courses</div><div class="cert-status">Feb 4, 2026 ✅</div></div>
+    <div class="cert-card"><div class="cert-icon">🌐</div><div class="cert-name">Web Fundamentals</div><div class="cert-issuer">TryHackMe — Learning Path</div><div class="cert-status">20h 50min · Feb 24, 2026 ✅</div></div>
+    <div class="cert-card"><div class="cert-icon">🐍</div><div class="cert-name">Regular Expressions in Python</div><div class="cert-issuer">DataCamp</div><div class="cert-status">4hrs · Feb 10, 2026 ✅</div></div>
+    <div class="cert-card"><div class="cert-icon">🌐</div><div class="cert-name">Cisco CyberOps Associate</div><div class="cert-issuer">Cisco</div><div class="cert-status">In Progress 🔄</div></div>
   </div>
 </section>
 
-<!-- FUN TERMINAL -->
+<!-- TERMINAL FUN -->
 <section style="background: var(--black); padding: 3rem;">
-  <div style="max-width: 600px; margin: 0 auto; background: #0d0d0d; border: 1px solid var(--border); border-radius: 6px; overflow: hidden;">
-    <div style="background: #1a1a1a; padding: 0.7rem 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid var(--border);">
+  <div style="max-width:600px;margin:0 auto;background:#0d0d0d;border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+    <div style="background:#1a1a1a;padding:0.7rem 1rem;display:flex;align-items:center;gap:0.5rem;border-bottom:1px solid var(--border);">
       <span style="width:10px;height:10px;border-radius:50%;background:#ff5f57;display:inline-block;"></span>
       <span style="width:10px;height:10px;border-radius:50%;background:#febc2e;display:inline-block;"></span>
       <span style="width:10px;height:10px;border-radius:50%;background:#28c840;display:inline-block;"></span>
       <span style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--text-dim);margin-left:0.5rem;">nephos@kali ~ $</span>
     </div>
-    <div style="padding: 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.78rem; line-height: 2;">
+    <div style="padding:1.5rem;font-family:'DM Mono',monospace;font-size:0.78rem;line-height:2;">
       <p><span style="color:var(--yellow);">$</span> <span style="color:#fff;">whoami</span></p>
-      <p style="color:var(--text);">cybersecurity student who googles everything</p>
-      <br>
+      <p style="color:var(--text);">cybersecurity student who googles everything</p><br>
       <p><span style="color:var(--yellow);">$</span> <span style="color:#fff;">cat sleep.log</span></p>
-      <p style="color:var(--text);">cat: sleep.log: No such file or directory</p>
-      <br>
+      <p style="color:var(--text);">cat: sleep.log: No such file or directory</p><br>
       <p><span style="color:var(--yellow);">$</span> <span style="color:#fff;">sudo understand_code.py</span></p>
       <p style="color:#ff5f57;">[ERROR] permission denied: brain not found</p>
       <p style="color:#febc2e;">[WARN]  running on coffee and CTF writeups</p>
-      <p style="color:#28c840;">[INFO]  workaround: ask Claude</p>
-      <br>
+      <p style="color:#28c840;">[INFO]  workaround: ask Claude</p><br>
       <p><span style="color:var(--yellow);">$</span> <span style="color:#fff;">nmap -sV life</span></p>
       <p style="color:var(--text);">PORT     STATE   SERVICE</p>
       <p style="color:var(--text);">22/tcp   open    ssh (always learning)</p>
       <p style="color:var(--text);">80/tcp   open    http (portfolio live)</p>
       <p style="color:var(--text);">443/tcp  open    https (future secured)</p>
-      <p style="color:var(--text-dim);">sleep/tcp closed  (not implemented)</p>
-      <br>
+      <p style="color:var(--text-dim);">sleep/tcp closed  (not implemented)</p><br>
       <p><span style="color:var(--yellow);">$</span> <span style="color:#fff;">█</span></p>
     </div>
   </div>
@@ -903,23 +563,15 @@
 <!-- CONTACT -->
 <section id="contact">
   <h2 class="contact-title">Let's <span class="accent">Connect</span></h2>
-  <p class="contact-sub">// open to opportunities, collaborations & CTF teams</p>
-  <div style="margin-bottom: 2.5rem;">
-    <iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=6859209" style="border:none; display:block; margin: 0 auto;"></iframe>
+  <p class="contact-sub">// open to opportunities, collaborations &amp; CTF teams</p>
+  <div style="margin-bottom:2.5rem;">
+    <iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=6859209" style="border:none;display:block;margin:0 auto;"></iframe>
   </div>
   <div class="contact-links">
-    <a href="https://github.com/obadahamed" class="contact-link" target="_blank">
-      ⬡ GitHub
-    </a>
-    <a href="https://www.linkedin.com/in/obadahamed" class="contact-link" target="_blank">
-      ⬡ LinkedIn
-    </a>
-    <a href="https://tryhackme.com/p/NEPHOS" class="contact-link" target="_blank">
-      ⬡ TryHackMe
-    </a>
-    <a href="https://portswigger.net" class="contact-link" target="_blank">
-      ⬡ PortSwigger
-    </a>
+    <a href="https://github.com/obadahamed" class="contact-link" target="_blank">⬡ GitHub</a>
+    <a href="https://www.linkedin.com/in/obadahamed" class="contact-link" target="_blank">⬡ LinkedIn</a>
+    <a href="https://tryhackme.com/p/NEPHOS" class="contact-link" target="_blank">⬡ TryHackMe</a>
+    <a href="https://portswigger.net" class="contact-link" target="_blank">⬡ PortSwigger</a>
   </div>
 </section>
 
@@ -929,40 +581,847 @@
 </footer>
 
 <script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx - 6 + 'px';
-    cursor.style.top = my - 6 + 'px';
+/* =====================================================================
+   NEPHOS DASHBOARD — single-file app
+   All data is defined on window.* before any logic reads it.
+===================================================================== */
+
+// ── global error banner ──────────────────────────────────────────────
+window.onerror = function (msg, src, line) {
+  var b = document.getElementById('err-banner');
+  if (b) { b.style.display = 'block'; b.textContent = '⚠ JS Error: ' + msg + ' (' + src + ':' + line + ')'; }
+};
+
+// =====================================================================
+// DATA  (defined once on window so nothing can reference them before init)
+// =====================================================================
+
+window.START_DATE = '2026-02-10'; // week 1 starts Feb 10 2026
+
+window.WEEKS_DATA = [
+  { week: 1, title: 'Pre-Security & Linux Basics',
+    tasks: [
+      { id: 'w1t1', text: 'Linux Fundamentals Part 1', est: 40 },
+      { id: 'w1t2', text: 'Linux Fundamentals Part 2', est: 40 },
+      { id: 'w1t3', text: 'Linux Fundamentals Part 3', est: 40 },
+      { id: 'w1t4', text: 'Read Linux cheatsheet & practice 10 commands', est: 30 }
+    ],
+    routines: [
+      { id: 'w1r1', text: 'Read 1 security writeup' },
+      { id: 'w1r2', text: 'Practice 5 Linux commands in terminal' }
+    ]
+  },
+  { week: 2, title: 'Networking & Web Basics',
+    tasks: [
+      { id: 'w2t1', text: 'DNS in Detail room', est: 25 },
+      { id: 'w2t2', text: 'HTTP in Detail room', est: 25 },
+      { id: 'w2t3', text: 'How Websites Work room', est: 20 },
+      { id: 'w2t4', text: 'Putting It All Together room', est: 20 }
+    ],
+    routines: [
+      { id: 'w2r1', text: 'Read 1 security news article' },
+      { id: 'w2r2', text: '10 min Burp Suite exploration' }
+    ]
+  },
+  { week: 3, title: 'Web Security Fundamentals',
+    tasks: [
+      { id: 'w3t1', text: 'OWASP Top 10 room', est: 60 },
+      { id: 'w3t2', text: 'OWASP Juice Shop room', est: 60 },
+      { id: 'w3t3', text: 'Burp Suite: The Basics room', est: 40 },
+      { id: 'w3t4', text: 'Write notes on OWASP Top 10 vulnerabilities', est: 30 }
+    ],
+    routines: [
+      { id: 'w3r1', text: 'Read 1 writeup from GitHub' },
+      { id: 'w3r2', text: 'Practice Burp Suite intercept' }
+    ]
+  },
+  { week: 4, title: 'SQL Injection & XSS',
+    tasks: [
+      { id: 'w4t1', text: 'SQL Injection room on TryHackMe', est: 40 },
+      { id: 'w4t2', text: 'Cross-site Scripting (XSS) room', est: 40 },
+      { id: 'w4t3', text: 'Practice 5 PortSwigger SQLi labs', est: 60 },
+      { id: 'w4t4', text: 'Practice 3 PortSwigger XSS labs', est: 45 }
+    ],
+    routines: [
+      { id: 'w4r1', text: 'Practice 1 PortSwigger lab' },
+      { id: 'w4r2', text: 'Read about one CVE exploit' }
+    ]
+  },
+  { week: 5, title: 'Exploitation & Metasploit',
+    tasks: [
+      { id: 'w5t1', text: 'Metasploit: Introduction room', est: 40 },
+      { id: 'w5t2', text: 'Metasploit: Exploitation room', est: 50 },
+      { id: 'w5t3', text: 'Blue (EternalBlue) CTF room', est: 60 },
+      { id: 'w5t4', text: 'Document Metasploit workflow in notes', est: 30 }
+    ],
+    routines: [
+      { id: 'w5r1', text: 'Practice 1 Metasploit module' },
+      { id: 'w5r2', text: 'Read 1 exploitation writeup' }
+    ]
+  },
+  { week: 6, title: 'Privilege Escalation',
+    tasks: [
+      { id: 'w6t1', text: 'Linux PrivEsc room', est: 60 },
+      { id: 'w6t2', text: 'Windows PrivEsc room', est: 60 },
+      { id: 'w6t3', text: 'SUID exploitation practice', est: 40 },
+      { id: 'w6t4', text: 'Update Privilege Escalation repo with notes', est: 30 }
+    ],
+    routines: [
+      { id: 'w6r1', text: 'Review 5 GTFOBins entries' },
+      { id: 'w6r2', text: 'Practice 1 privesc technique' }
+    ]
+  },
+  { week: 7, title: 'CTF Practice',
+    tasks: [
+      { id: 'w7t1', text: 'Complete 2 Easy TryHackMe CTF rooms', est: 120 },
+      { id: 'w7t2', text: 'Write CTF writeup for both rooms', est: 60 },
+      { id: 'w7t3', text: 'Practice Steganography tools (Steghide, Binwalk)', est: 30 },
+      { id: 'w7t4', text: 'Review hash cracking techniques', est: 30 }
+    ],
+    routines: [
+      { id: 'w7r1', text: 'Enumerate one service / machine' },
+      { id: 'w7r2', text: 'Review CTF methodology checklist' }
+    ]
+  },
+  { week: 8, title: 'Red Team & Reporting',
+    tasks: [
+      { id: 'w8t1', text: 'Jr Penetration Tester path — full review', est: 60 },
+      { id: 'w8t2', text: 'Practice full pentest methodology on a box', est: 90 },
+      { id: 'w8t3', text: 'Write a sample pentest report (template)', est: 60 },
+      { id: 'w8t4', text: 'Update GitHub portfolio README', est: 30 }
+    ],
+    routines: [
+      { id: 'w8r1', text: 'Read one red team technique article' },
+      { id: 'w8r2', text: 'Plan next month learning goals' }
+    ]
+  }
+];
+
+window.PRELOADED_ROOMS = [
+  // Linux
+  { id: 'linux-fund-1',   name: 'Linux Fundamentals Part 1',   category: 'Linux',       difficulty: 'easy',   url: 'https://tryhackme.com/room/linuxfundamentalspart1' },
+  { id: 'linux-fund-2',   name: 'Linux Fundamentals Part 2',   category: 'Linux',       difficulty: 'easy',   url: 'https://tryhackme.com/room/linuxfundamentalspart2' },
+  { id: 'linux-fund-3',   name: 'Linux Fundamentals Part 3',   category: 'Linux',       difficulty: 'easy',   url: 'https://tryhackme.com/room/linuxfundamentalspart3' },
+  { id: 'linux-privesc',  name: 'Linux PrivEsc',                category: 'Linux',       difficulty: 'medium', url: 'https://tryhackme.com/room/linprivesc' },
+  // Networking
+  { id: 'dns-detail',     name: 'DNS in Detail',                category: 'Networking',  difficulty: 'easy',   url: 'https://tryhackme.com/room/dnsindetail' },
+  { id: 'http-detail',    name: 'HTTP in Detail',               category: 'Networking',  difficulty: 'easy',   url: 'https://tryhackme.com/room/httpindetail' },
+  { id: 'wireshark-101',  name: 'Wireshark: The Basics',        category: 'Networking',  difficulty: 'easy',   url: 'https://tryhackme.com/room/wiresharkthebasics' },
+  // Web
+  { id: 'how-websites',   name: 'How Websites Work',            category: 'Web',         difficulty: 'easy',   url: 'https://tryhackme.com/room/howwebsiteswork' },
+  { id: 'owasp-top10',    name: 'OWASP Top 10',                 category: 'Web',         difficulty: 'easy',   url: 'https://tryhackme.com/room/owasptop10' },
+  { id: 'owasp-juice',    name: 'OWASP Juice Shop',             category: 'Web',         difficulty: 'easy',   url: 'https://tryhackme.com/room/owaspjuiceshop' },
+  { id: 'burp-basics',    name: 'Burp Suite: The Basics',       category: 'Web',         difficulty: 'easy',   url: 'https://tryhackme.com/room/burpsuitebasics' },
+  { id: 'sql-injection',  name: 'SQL Injection',                category: 'Web',         difficulty: 'easy',   url: 'https://tryhackme.com/room/sqlinjectionlm' },
+  { id: 'xss-room',       name: 'Cross-site Scripting',         category: 'Web',         difficulty: 'easy',   url: 'https://tryhackme.com/room/xss' },
+  { id: 'file-inclusion', name: 'File Inclusion',               category: 'Web',         difficulty: 'medium', url: 'https://tryhackme.com/room/fileinc' },
+  // Exploitation
+  { id: 'msf-intro',      name: 'Metasploit: Introduction',     category: 'Exploitation',difficulty: 'easy',   url: 'https://tryhackme.com/room/metasploitintro' },
+  { id: 'msf-exploit',    name: 'Metasploit: Exploitation',     category: 'Exploitation',difficulty: 'medium', url: 'https://tryhackme.com/room/metasploitexploitation' },
+  { id: 'blue-eternal',   name: 'Blue (EternalBlue)',           category: 'Exploitation',difficulty: 'easy',   url: 'https://tryhackme.com/room/blue' },
+  // CTF
+  { id: 'mr-robot',       name: 'Mr. Robot CTF',                category: 'CTF',         difficulty: 'medium', url: 'https://tryhackme.com/room/mrrobot' },
+  { id: 'agent-sudo',     name: 'Agent Sudo',                   category: 'CTF',         difficulty: 'easy',   url: 'https://tryhackme.com/room/agentsudoctf' },
+  { id: 'bounty-hacker',  name: 'Bounty Hacker',                category: 'CTF',         difficulty: 'easy',   url: 'https://tryhackme.com/room/cowboyhacker' },
+  { id: 'brooklyn',       name: 'Brooklyn Nine Nine',           category: 'CTF',         difficulty: 'easy',   url: 'https://tryhackme.com/room/brooklynninenine' },
+  { id: 'ice-win',        name: 'Ice (Windows)',                category: 'CTF',         difficulty: 'easy',   url: 'https://tryhackme.com/room/ice' },
+  // OSINT
+  { id: 'google-dork',    name: 'Google Dorking',               category: 'OSINT',       difficulty: 'easy',   url: 'https://tryhackme.com/room/googledorking' },
+  { id: 'ohsint',         name: 'OhSINT',                       category: 'OSINT',       difficulty: 'easy',   url: 'https://tryhackme.com/room/ohsint' },
+  // Windows
+  { id: 'win-fund-1',     name: 'Windows Fundamentals 1',       category: 'Windows',     difficulty: 'easy',   url: 'https://tryhackme.com/room/windowsfundamentals1xbx' },
+  { id: 'win-privesc',    name: 'Windows PrivEsc',              category: 'Windows',     difficulty: 'medium', url: 'https://tryhackme.com/room/windows10privesc' }
+];
+
+window.SKILLS_DEF = [
+  { name: 'Linux',       icon: '🐧', cats: ['Linux'] },
+  { name: 'Web Security',icon: '🌐', cats: ['Web'] },
+  { name: 'Networking',  icon: '📡', cats: ['Networking'] },
+  { name: 'Exploitation',icon: '🔺', cats: ['Exploitation'] },
+  { name: 'CTF & OSINT', icon: '🚩', cats: ['CTF', 'OSINT'] },
+  { name: 'Windows',     icon: '🪟', cats: ['Windows'] }
+];
+
+// =====================================================================
+// STATE
+// =====================================================================
+var STORAGE_KEY = 'nephos_v1';
+var S = {
+  tasks:      {},   // taskId -> true
+  routines:   {},   // routineId_YYYY-MM-DD -> true
+  rooms:      {},   // roomId -> 'pending'|'inprogress'|'done'
+  notif:      { enabled: false, time: '20:00' },
+  extraRooms: []
+};
+
+function loadState() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      var saved = JSON.parse(raw);
+      // merge each key so new keys stay with defaults
+      if (saved.tasks)      S.tasks      = saved.tasks;
+      if (saved.routines)   S.routines   = saved.routines;
+      if (saved.rooms)      S.rooms      = saved.rooms;
+      if (saved.notif)      S.notif      = Object.assign(S.notif, saved.notif);
+      if (saved.extraRooms) S.extraRooms = saved.extraRooms;
+    }
+  } catch (e) { /* ignore parse errors */ }
+}
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(S)); } catch (e) {}
+}
+
+// =====================================================================
+// HELPERS
+// =====================================================================
+function todayStr() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function getCurrentWeekIndex() {
+  var start  = new Date(window.START_DATE);
+  var today  = new Date();
+  today.setHours(0, 0, 0, 0);
+  var diff   = Math.floor((today - start) / (7 * 24 * 60 * 60 * 1000));
+  return Math.max(0, Math.min(diff, window.WEEKS_DATA.length - 1));
+}
+
+function isTaskDone(id)    { return !!S.tasks[id]; }
+function isRoutineDone(id) { return !!S.routines[id + '_' + todayStr()]; }
+function roomState(id)     { return S.rooms[id] || 'pending'; }
+
+function weekProgress(week) {
+  if (!week || !week.tasks || !week.tasks.length) return 0;
+  var done = week.tasks.filter(function(t) { return isTaskDone(t.id); }).length;
+  return Math.round((done / week.tasks.length) * 100);
+}
+
+function allRooms() {
+  return window.PRELOADED_ROOMS.concat(S.extraRooms || []);
+}
+
+// =====================================================================
+// DASHBOARD OPEN / CLOSE
+// =====================================================================
+function openDashboard() {
+  document.getElementById('dashboard').style.display  = 'flex';
+  document.getElementById('dashboard').setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  showView('today');
+}
+
+function closeDashboard() {
+  document.getElementById('dashboard').style.display = 'none';
+  document.getElementById('dashboard').setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+// =====================================================================
+// VIEW ROUTING
+// =====================================================================
+var _currentView = 'today';
+
+function showView(view) {
+  _currentView = view;
+  // update nav highlight
+  ['today','roadmap','skills','rooms','settings'].forEach(function(v) {
+    var btn = document.getElementById('btn-' + v);
+    if (btn) btn.classList.toggle('active', v === view);
   });
+  var renders = {
+    today:    renderToday,
+    roadmap:  renderRoadmap,
+    skills:   renderSkills,
+    rooms:    renderRooms,
+    settings: renderSettings
+  };
+  if (renders[view]) {
+    try { renders[view](); }
+    catch (e) {
+      document.getElementById('db-main').innerHTML =
+        '<div class="db-content"><p style="color:var(--red);">Render error: ' + e.message + '</p></div>';
+    }
+  }
+}
+
+// =====================================================================
+// TOGGLES (called by inline onclick — must be on window)
+// =====================================================================
+window.toggleTask = function(taskId) {
+  S.tasks[taskId] = !S.tasks[taskId];
+  saveState();
+  showView(_currentView);
+};
+
+window.toggleRoutine = function(routineId) {
+  var key = routineId + '_' + todayStr();
+  S.routines[key] = !S.routines[key];
+  saveState();
+  showView(_currentView);
+};
+
+window.setRoomState = function(roomId, state) {
+  S.rooms[roomId] = state;
+  saveState();
+  renderRooms();
+};
+
+window.toggleWeekBody = function(id) {
+  var el = document.getElementById(id);
+  if (el) el.style.display = (el.style.display === 'none') ? 'block' : 'none';
+};
+
+// =====================================================================
+// RENDER — TODAY
+// =====================================================================
+function renderToday() {
+  var wi   = getCurrentWeekIndex();
+  var week = window.WEEKS_DATA[wi] || window.WEEKS_DATA[0];
+  var pct  = weekProgress(week);
+  var done = week.tasks.filter(function(t){ return isTaskDone(t.id); }).length;
+
+  // build overdue list (uncompleted tasks from past weeks)
+  var overdue = [];
+  for (var i = 0; i < wi; i++) {
+    var pw = window.WEEKS_DATA[i];
+    pw.tasks.forEach(function(t) {
+      if (!isTaskDone(t.id)) overdue.push({ t: t, wk: pw.week });
+    });
+  }
+
+  // upcoming = next week's tasks
+  var nextWk = window.WEEKS_DATA[wi + 1] || null;
+
+  var dateStr = new Date().toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+
+  var html = '<div class="db-content">'
+    + '<div class="db-view-hd"><h2>Today</h2><div class="db-view-sub">' + dateStr + '</div></div>';
+
+  // overdue
+  if (overdue.length) {
+    html += '<div class="db-sec">'
+      + '<div class="db-sec-ttl is-overdue">⚠ Overdue (' + overdue.length + ')</div>'
+      + overdue.map(function(o){
+          return taskRow(o.t, true, false, 'W' + o.wk);
+        }).join('')
+      + '</div>';
+  }
+
+  // current week tasks
+  html += '<div class="db-sec">'
+    + '<div class="db-sec-ttl">Week ' + week.week + ' — ' + escH(week.title) + '</div>'
+    + '<div class="db-pbar-wrap"><div class="db-pbar-fill" style="width:' + pct + '%"></div></div>'
+    + '<div class="db-pbar-lbl">' + done + '/' + week.tasks.length + ' tasks · ' + pct + '%</div>'
+    + week.tasks.map(function(t){ return taskRow(t, false, false); }).join('')
+    + '</div>';
+
+  // routines
+  html += '<div class="db-sec">'
+    + '<div class="db-sec-ttl">Daily Routines</div>'
+    + week.routines.map(function(r){ return routineRow(r); }).join('')
+    + '</div>';
+
+  // upcoming
+  if (nextWk) {
+    html += '<div class="db-sec">'
+      + '<div class="db-sec-ttl is-upcoming">📅 Upcoming — Week ' + nextWk.week + ': ' + escH(nextWk.title) + '</div>'
+      + nextWk.tasks.slice(0, 3).map(function(t){ return taskRow(t, false, true); }).join('')
+      + '</div>';
+  }
+
+  html += '</div>';
+  document.getElementById('db-main').innerHTML = html;
+}
+
+// =====================================================================
+// RENDER — ROADMAP
+// =====================================================================
+function renderRoadmap() {
+  var wi  = getCurrentWeekIndex();
+  var html = '<div class="db-content">'
+    + '<div class="db-view-hd"><h2>Roadmap</h2><div class="db-view-sub">8-Week Learning Plan</div></div>';
+
+  window.WEEKS_DATA.forEach(function(week, i) {
+    var pct    = weekProgress(week);
+    var isCurr = (i === wi);
+    var bodyId = 'wkbody-' + i;
+
+    html += '<div class="db-wk-card' + (isCurr ? ' is-current' : '') + '">'
+      + '<div class="db-wk-head" onclick="toggleWeekBody(\'' + bodyId + '\')">'
+        + '<div class="db-wk-l">'
+          + '<span class="db-wk-num">WK' + week.week + '</span>'
+          + '<span class="db-wk-ttl">' + escH(week.title) + '</span>'
+          + (isCurr ? '<span class="db-curr-badge">CURRENT</span>' : '')
+        + '</div>'
+        + '<div class="db-wk-r">'
+          + '<span class="db-wk-pct">' + pct + '%</span>'
+          + '<span class="db-wk-arr">▼</span>'
+        + '</div>'
+      + '</div>'
+      + '<div class="db-wk-pbar"><div class="db-wk-pbar-fill" style="width:' + pct + '%"></div></div>'
+      + '<div id="' + bodyId + '" class="db-wk-body" style="' + (isCurr ? '' : 'display:none;') + '">'
+        + week.tasks.map(function(t){ return taskRow(t, false, false); }).join('')
+        + '<div class="db-rtn-grp">'
+          + week.routines.map(function(r){ return routineRow(r); }).join('')
+        + '</div>'
+      + '</div>'
+      + '</div>';
+  });
+
+  html += '</div>';
+  document.getElementById('db-main').innerHTML = html;
+}
+
+// =====================================================================
+// RENDER — SKILLS
+// =====================================================================
+function renderSkills() {
+  var rooms = allRooms();
+  var html  = '<div class="db-content">'
+    + '<div class="db-view-hd"><h2>Skills</h2><div class="db-view-sub">Progress based on completed rooms</div></div>'
+    + '<div class="db-sk-grid">';
+
+  window.SKILLS_DEF.forEach(function(skill) {
+    var total = rooms.filter(function(r){ return skill.cats.indexOf(r.category) >= 0; }).length;
+    var done  = rooms.filter(function(r){ return skill.cats.indexOf(r.category) >= 0 && roomState(r.id) === 'done'; }).length;
+    var pct   = total ? Math.round((done / total) * 100) : 0;
+    html += '<div class="db-sk-card">'
+      + '<div class="db-sk-hd"><span class="db-sk-name">' + skill.icon + ' ' + skill.name + '</span><span class="db-sk-pct">' + pct + '%</span></div>'
+      + '<div class="db-sk-bar"><div class="db-sk-bar-fill" style="width:' + pct + '%"></div></div>'
+      + '<div class="db-sk-cnt">' + done + ' / ' + total + ' rooms done</div>'
+      + '</div>';
+  });
+
+  html += '</div><div class="db-sec"><div class="db-sec-ttl">Weekly Task Progress</div>';
+
+  window.WEEKS_DATA.forEach(function(week) {
+    var pct   = weekProgress(week);
+    var color = pct === 100 ? 'var(--green)' : 'var(--yellow)';
+    html += '<div style="margin-bottom:0.9rem;">'
+      + '<div style="display:flex;justify-content:space-between;font-size:0.73rem;margin-bottom:0.25rem;">'
+        + '<span style="color:var(--text);">Week ' + week.week + ': ' + escH(week.title) + '</span>'
+        + '<span style="color:' + color + ';">' + pct + '%</span>'
+      + '</div>'
+      + '<div style="background:var(--border);height:3px;border-radius:2px;">'
+        + '<div style="width:' + pct + '%;height:3px;background:' + color + ';border-radius:2px;"></div>'
+      + '</div>'
+      + '</div>';
+  });
+
+  html += '</div></div>';
+  document.getElementById('db-main').innerHTML = html;
+}
+
+// =====================================================================
+// RENDER — ROOMS
+// =====================================================================
+var _roomFilter = 'all';
+
+window.setRoomFilter = function(f) { _roomFilter = f; renderRooms(); };
+
+function renderRooms() {
+  var rooms = allRooms();
+  var counts = { all: rooms.length, pending: 0, inprogress: 0, done: 0 };
+  rooms.forEach(function(r) {
+    var st = roomState(r.id);
+    if (counts[st] !== undefined) counts[st]++;
+  });
+
+  var filtered = _roomFilter === 'all'
+    ? rooms
+    : rooms.filter(function(r){ return roomState(r.id) === _roomFilter; });
+
+  var filterLabels = {
+    all:        '📋 All',
+    pending:    '⏳ Pending',
+    inprogress: '🔄 In Progress',
+    done:       '✅ Done'
+  };
+
+  var html = '<div class="db-content">'
+    + '<div class="db-view-hd"><h2>Rooms</h2>'
+      + '<div class="db-view-sub">' + rooms.length + ' rooms · ' + counts.done + ' done</div>'
+    + '</div>'
+    + '<div class="db-rm-filters">';
+
+  ['all','pending','inprogress','done'].forEach(function(f) {
+    html += '<button class="db-flt' + (_roomFilter === f ? ' active' : '') + '" onclick="setRoomFilter(\'' + f + '\')">'
+      + filterLabels[f] + ' (' + counts[f] + ')'
+      + '</button>';
+  });
+
+  html += '</div><div class="db-rm-list">';
+
+  if (!filtered.length) {
+    html += '<p style="color:var(--text-dim);padding:2rem;text-align:center;">No rooms match this filter.</p>';
+  } else {
+    filtered.forEach(function(room) {
+      var st = roomState(room.id);
+      html += '<div class="db-rm-card">'
+        + '<div class="db-rm-info">'
+          + '<a href="' + room.url + '" target="_blank" class="db-rm-name">' + escH(room.name) + '</a>'
+          + '<div class="db-rm-meta">'
+            + '<span class="db-rm-cat">' + escH(room.category) + '</span>'
+            + '<span class="db-rm-diff rm-' + room.difficulty + '">' + room.difficulty + '</span>'
+          + '</div>'
+        + '</div>'
+        + '<div class="db-rm-acts">'
+          + stBtn(room.id, 'pending',    '⏳ Pending',    st)
+          + stBtn(room.id, 'inprogress', '🔄 In Progress', st)
+          + stBtn(room.id, 'done',       '✅ Done',        st)
+        + '</div>'
+        + '</div>';
+    });
+  }
+
+  html += '</div></div>';
+  document.getElementById('db-main').innerHTML = html;
+}
+
+function stBtn(roomId, state, label, current) {
+  var cls = 'db-st-btn' + (current === state ? ' st-' + state : '');
+  return '<button class="' + cls + '" onclick="setRoomState(\'' + roomId + '\',\'' + state + '\')">' + label + '</button>';
+}
+
+// =====================================================================
+// RENDER — SETTINGS
+// =====================================================================
+function renderSettings() {
+  var html = '<div class="db-content">'
+    + '<div class="db-view-hd"><h2>Settings</h2><div class="db-view-sub">Backup · Notifications · Pomodoro</div></div>'
+
+    // Backup & Restore
+    + '<div class="db-set-sec">'
+      + '<div class="db-set-ttl">💾 Backup &amp; Restore</div>'
+      + '<div class="db-set-row">'
+        + '<div><div class="db-set-lbl">Export Data</div><div class="db-set-desc">Download all progress as a JSON file</div></div>'
+        + '<button class="db-btn" onclick="exportBackup()">Export JSON</button>'
+      + '</div>'
+      + '<div class="db-set-row">'
+        + '<div><div class="db-set-lbl">Import Data</div><div class="db-set-desc">Restore from a backup JSON file</div></div>'
+        + '<label class="db-btn" style="cursor:none;">'
+            + 'Import JSON'
+            + '<input type="file" accept=".json" onchange="importBackup(event)" style="display:none;">'
+          + '</label>'
+      + '</div>'
+      + '<div class="db-set-row">'
+        + '<div><div class="db-set-lbl">Reset All Data</div><div class="db-set-desc">Clear all saved progress (cannot be undone)</div></div>'
+        + '<button class="db-btn danger" onclick="resetAll()">Reset</button>'
+      + '</div>'
+    + '</div>'
+
+    // Notifications
+    + '<div class="db-set-sec">'
+      + '<div class="db-set-ttl">🔔 Notifications</div>'
+      + '<div class="db-set-row">'
+        + '<div><div class="db-set-lbl">Daily Reminder</div><div class="db-set-desc">Browser notification to complete your daily tasks</div></div>'
+        + '<button class="db-btn' + (S.notif.enabled ? ' is-on' : '') + '" onclick="toggleNotif()">'
+            + (S.notif.enabled ? '✓ Enabled' : 'Enable')
+          + '</button>'
+      + '</div>'
+      + '<div class="db-set-row">'
+        + '<div><div class="db-set-lbl">Reminder Time</div><div class="db-set-desc">Time to fire the daily reminder</div></div>'
+        + '<input type="time" class="db-time-in" value="' + S.notif.time + '" onchange="setNotifTime(this.value)">'
+      + '</div>'
+    + '</div>'
+
+    // Pomodoro (full view)
+    + '<div class="db-set-sec">'
+      + '<div class="db-set-ttl">🍅 Pomodoro Timer</div>'
+      + '<div class="pomo-big">'
+        + '<div class="pomo-big-time" id="pomo-display-big">' + formatPomoTime(_pomoTime) + '</div>'
+        + '<div class="pomo-big-phase" id="pomo-phase-big">' + (_pomoPhase === 'work' ? 'Focus Time ⚡' : 'Break Time ☕') + '</div>'
+        + '<div class="pomo-big-ctrl">'
+          + '<button class="db-btn" onclick="startPomo()">▶ Start</button>'
+          + '<button class="db-btn" onclick="pausePomo()">⏸ Pause</button>'
+          + '<button class="db-btn" onclick="resetPomo()">↺ Reset</button>'
+        + '</div>'
+        + '<div class="pomo-big-modes" style="margin-top:0.6rem;">'
+          + '<button class="db-btn' + (_pomoWork === 25 ? ' is-on' : '') + '" onclick="setPomoMode(25,5)">25/5 min</button>'
+          + '<button class="db-btn' + (_pomoWork === 50 ? ' is-on' : '') + '" onclick="setPomoMode(50,10)">50/10 min</button>'
+        + '</div>'
+      + '</div>'
+    + '</div>'
+
+    + '</div>';
+
+  document.getElementById('db-main').innerHTML = html;
+}
+
+// =====================================================================
+// BACKUP / RESTORE / RESET
+// =====================================================================
+window.exportBackup = function() {
+  var data = JSON.stringify(S, null, 2);
+  var blob = new Blob([data], { type: 'application/json' });
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href   = url;
+  a.download = 'nephos-backup-' + todayStr() + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
+window.importBackup = function(event) {
+  var file = event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var data = JSON.parse(e.target.result);
+      if (data.tasks)      S.tasks      = data.tasks;
+      if (data.routines)   S.routines   = data.routines;
+      if (data.rooms)      S.rooms      = data.rooms;
+      if (data.notif)      S.notif      = Object.assign(S.notif, data.notif);
+      if (data.extraRooms) S.extraRooms = data.extraRooms;
+      saveState();
+      showView(_currentView);
+      alert('✓ Backup imported successfully!');
+    } catch (err) {
+      alert('⚠ Could not read backup file: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+};
+
+window.resetAll = function() {
+  if (confirm('Reset ALL progress? This cannot be undone.')) {
+    S = { tasks: {}, routines: {}, rooms: {}, notif: { enabled: false, time: '20:00' }, extraRooms: [] };
+    saveState();
+    showView(_currentView);
+  }
+};
+
+// =====================================================================
+// NOTIFICATIONS
+// =====================================================================
+var _notifTimer = null;
+
+window.toggleNotif = function() {
+  if (S.notif.enabled) {
+    S.notif.enabled = false;
+    saveState();
+    clearTimeout(_notifTimer);
+    renderSettings();
+    return;
+  }
+  if (!('Notification' in window)) {
+    alert('Notifications are not supported in this browser.');
+    return;
+  }
+  Notification.requestPermission().then(function(perm) {
+    if (perm === 'granted') {
+      S.notif.enabled = true;
+      saveState();
+      scheduleNotif();
+    } else {
+      alert('Notification permission denied. Enable it in browser settings.');
+    }
+    renderSettings();
+  });
+};
+
+window.setNotifTime = function(time) {
+  S.notif.time = time;
+  saveState();
+  if (S.notif.enabled) scheduleNotif();
+};
+
+function scheduleNotif() {
+  if (_notifTimer) clearTimeout(_notifTimer);
+  if (!S.notif.enabled || !('Notification' in window)) return;
+  var parts  = (S.notif.time || '20:00').split(':');
+  var h      = parseInt(parts[0], 10) || 20;
+  var m      = parseInt(parts[1], 10) || 0;
+  var now    = new Date();
+  var target = new Date(now);
+  target.setHours(h, m, 0, 0);
+  if (target <= now) target.setDate(target.getDate() + 1);
+  _notifTimer = setTimeout(function() {
+    if (Notification.permission === 'granted') {
+      new Notification('NEPHOS — Daily Reminder 🎯', {
+        body: 'Time to work on your tasks! Keep the streak going.',
+        icon: ''
+      });
+    }
+    scheduleNotif(); // reschedule for next day
+  }, target - now);
+}
+
+// =====================================================================
+// POMODORO
+// =====================================================================
+var _pomoWork    = 25;
+var _pomoBreak   = 5;
+var _pomoTime    = 25 * 60; // seconds
+var _pomoPhase   = 'work';  // 'work' | 'break'
+var _pomoRunning = false;
+var _pomoInterval = null;
+
+window.setPomoMode = function(work, brk) {
+  _pomoWork  = work;
+  _pomoBreak = brk;
+  // update sidebar mode buttons
+  var p25 = document.getElementById('pmode-25');
+  var p50 = document.getElementById('pmode-50');
+  if (p25) p25.classList.toggle('active', work === 25);
+  if (p50) p50.classList.toggle('active', work === 50);
+  resetPomo();
+};
+
+window.startPomo = function() {
+  if (_pomoRunning) return;
+  _pomoRunning = true;
+  _pomoInterval = setInterval(tickPomo, 1000);
+};
+
+window.pausePomo = function() {
+  _pomoRunning = false;
+  clearInterval(_pomoInterval);
+};
+
+window.resetPomo = function() {
+  pausePomo();
+  _pomoPhase = 'work';
+  _pomoTime  = _pomoWork * 60;
+  updatePomoDisplay();
+};
+
+function tickPomo() {
+  _pomoTime--;
+  if (_pomoTime <= 0) {
+    pausePomo();
+    if (_pomoPhase === 'work') {
+      _pomoPhase = 'break';
+      _pomoTime  = _pomoBreak * 60;
+      firePomoNotif('Break Time ☕', _pomoBreak + ' min break. You earned it!');
+    } else {
+      _pomoPhase = 'work';
+      _pomoTime  = _pomoWork * 60;
+      firePomoNotif('Focus Time ⚡', _pomoWork + ' min focus session. Let\'s go!');
+    }
+    startPomo();
+  }
+  updatePomoDisplay();
+}
+
+function firePomoNotif(title, body) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('🍅 ' + title, { body: body, icon: '' });
+  }
+}
+
+function formatPomoTime(sec) {
+  var m = Math.floor(sec / 60).toString().padStart(2, '0');
+  var s = (sec % 60).toString().padStart(2, '0');
+  return m + ':' + s;
+}
+
+function updatePomoDisplay() {
+  var txt   = formatPomoTime(_pomoTime);
+  var phase = _pomoPhase === 'work' ? 'Focus Time ⚡' : 'Break Time ☕';
+  var d1 = document.getElementById('pomo-display');
+  var d2 = document.getElementById('pomo-display-big');
+  var p1 = document.getElementById('pomo-phase-lbl');
+  var p2 = document.getElementById('pomo-phase-big');
+  if (d1) d1.textContent = txt;
+  if (d2) d2.textContent = txt;
+  if (p1) p1.textContent = phase;
+  if (p2) p2.textContent = phase;
+}
+
+// =====================================================================
+// SHARED ROW BUILDERS
+// =====================================================================
+function taskRow(task, isOverdue, isUpcoming, weekLabel) {
+  var done = isTaskDone(task.id);
+  var cls  = 'db-task'
+    + (done        ? ' is-done'     : '')
+    + (isOverdue   ? ' is-overdue'  : '')
+    + (isUpcoming  ? ' is-upcoming' : '');
+  var onclick = isUpcoming ? '' : ' onclick="toggleTask(\'' + task.id + '\')"';
+  var extra   = weekLabel
+    ? '<span class="t-wk">' + escH(weekLabel) + '</span>'
+    : '<span class="t-est">' + task.est + 'm</span>';
+  return '<div class="' + cls + '"' + onclick + '>'
+    + '<span class="t-chk">' + (done ? '✓' : '○') + '</span>'
+    + '<span class="t-txt">' + escH(task.text) + '</span>'
+    + extra
+    + '</div>';
+}
+
+function routineRow(routine) {
+  var done = isRoutineDone(routine.id);
+  var cls  = 'db-routine' + (done ? ' is-done' : '');
+  return '<div class="' + cls + '" onclick="toggleRoutine(\'' + routine.id + '\')">'
+    + '<span class="t-chk">' + (done ? '✓' : '○') + '</span>'
+    + '<span class="t-txt">' + escH(routine.text) + '</span>'
+    + '<span class="t-est">daily</span>'
+    + '</div>';
+}
+
+function escH(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// =====================================================================
+// INIT
+// =====================================================================
+loadState();
+if (S.notif.enabled) scheduleNotif();
+
+// ── Portfolio: custom cursor ─────────────────────────────────────────
+(function () {
+  var cursor = document.getElementById('cursor');
+  var ring   = document.getElementById('cursorRing');
+  var mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', function(e) {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = (mx - 6) + 'px';
+    cursor.style.top  = (my - 6) + 'px';
+  });
+
   function animRing() {
     rx += (mx - rx) * 0.12;
     ry += (my - ry) * 0.12;
-    ring.style.left = rx - 18 + 'px';
-    ring.style.top = ry - 18 + 'px';
+    ring.style.left = (rx - 18) + 'px';
+    ring.style.top  = (ry - 18) + 'px';
     requestAnimationFrame(animRing);
   }
   animRing();
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2.5)');
-    el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
-  });
 
-  // Typewriter
-  const phrases = [
+  document.querySelectorAll('a, button').forEach(function(el) {
+    el.addEventListener('mouseenter', function() { cursor.style.transform = 'scale(2.5)'; });
+    el.addEventListener('mouseleave', function() { cursor.style.transform = 'scale(1)'; });
+  });
+}());
+
+// ── Portfolio: typewriter ────────────────────────────────────────────
+(function () {
+  var phrases = [
     'CTF Player & Red Team Enthusiast',
     'Web Application Security',
     'Privilege Escalation Techniques',
     'Python Security Scripting',
     'Always learning. Always hacking.'
   ];
-  let pi = 0, ci = 0, deleting = false;
-  const tw = document.getElementById('typewriter');
+  var pi = 0, ci = 0, deleting = false;
+  var tw = document.getElementById('typewriter');
+  if (!tw) return;
+
   function type() {
-    const phrase = phrases[pi];
+    var phrase = phrases[pi];
     if (!deleting) {
       tw.textContent = phrase.slice(0, ++ci);
       if (ci === phrase.length) { deleting = true; setTimeout(type, 2000); return; }
@@ -973,6 +1432,7 @@
     setTimeout(type, deleting ? 40 : 70);
   }
   type();
+}());
 </script>
 </body>
 </html>
