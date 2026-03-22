@@ -1,0 +1,30 @@
+/* Style.css - Dark Theme with Cyber Green and Electric Blue */
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+.hero {
+    background-color: #39ff14;
+    padding: 20px;
+    text-align: center;
+}
+
+.about, .skills, .projects, .roadmap, .certifications, .contact {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #00d4ff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+}
