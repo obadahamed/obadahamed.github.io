@@ -1,30 +1,25 @@
-/* Style.css - Dark Theme with Cyber Green and Electric Blue */
+/* Complete XENOS design CSS goes here */
+
 body {
-    background-color: #121212;
-    color: #ffffff;
-    font-family: Arial, sans-serif;
+    font-family: 'XENOS', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
 }
 
-.hero {
-    background-color: #39ff14;
-    padding: 20px;
-    text-align: center;
-}
-
-.about, .skills, .projects, .roadmap, .certifications, .contact {
-    margin: 20px;
-    padding: 20px;
-    border-radius: 5px;
-}
-
-button {
-    background-color: #00d4ff;
-    border: none;
+.header {
+    background-color: #0d6efd;
     color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    margin: 4px 2px;
-    cursor: pointer;
+    padding: 20px;
 }
+
+.footer {
+    background-color: #333;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Add more styles as needed for the XENOS design */
