@@ -5,8 +5,6 @@ const EXCLUDE_REPOS = ['obadahamed.github.io'];
 
 // Anthropic API Configuration
 let ANTHROPIC_API_KEY = null;
-let README_FETCH_COUNT = 0; // Rate limiting for README fetches
-const MAX_README_FETCHES = 5;
 
 // Fetch GitHub Profile Data
 async function fetchGitHubProfile() {
@@ -57,75 +55,6 @@ async function fetchGitHubRepos() {
     }
 }
 
-// Fetch README from repo
-async function fetchRepoReadme(repoName) {
-    // Rate limiting: only fetch first 5
-    if (README_FETCH_COUNT >= MAX_README_FETCHES) {
-        return null;
-    }
-    
-    try {
-        const response = await fetch(`${GITHUB_API}/repos/${GITHUB_USER}/${repoName}/readme`, {
-            headers: {
-                'Accept': 'application/vnd.github.v3.raw'
-            }
-        });
-        
-        if (!response.ok) return null;
-        
-        README_FETCH_COUNT++;
-        const readme = await response.text();
-        return readme;
-    } catch (error) {
-        console.error(`Error fetching README for ${repoName}:`, error);
-        return null;
-    }
-}
-
-// Extract Techniques from README or Description
-async function extractTechniques(repo) {
-    const techniques = [];
-    let searchText = (repo.description || '').toLowerCase();
-    
-    // Try to fetch README if we haven't hit limit
-    if (README_FETCH_COUNT < MAX_README_FETCHES) {
-        const readme = await fetchRepoReadme(repo.name);
-        if (readme) {
-            searchText += ' ' + readme.toLowerCase();
-        }
-    }
-    
-    // Keyword mapping for technique detection
-    const keywords = {
-        'XSS': ['xss', 'cross-site', 'stored', 'reflected', 'dom xss'],
-        'SQLi': ['sql', 'injection', 'sqli', 'sql injection'],
-        'IDOR': ['idor', 'insecure direct object reference'],
-        'PrivEsc': ['privesc', 'privilege escalation', 'privilege', 'escalation'],
-        'RCE': ['rce', 'remote code execution', 'code execution'],
-        'XXE': ['xxe', 'xml external entity', 'xml'],
-        'LFI': ['lfi', 'local file inclusion', 'local file'],
-        'RFI': ['rfi', 'remote file inclusion'],
-        'AD': ['active directory', 'ad enumeration', 'domain controller'],
-        'Burp': ['burp', 'burpsuite'],
-        'Nmap': ['nmap', 'port scanning'],
-        'Metasploit': ['metasploit', 'exploit'],
-        'SSRF': ['ssrf', 'server-side request forgery'],
-        'CSRF': ['csrf', 'cross-site request forgery'],
-        'Command Injection': ['command injection', 'os command'],
-        'Path Traversal': ['path traversal', 'directory traversal'],
-    };
-    
-    // Search for keywords
-    for (const [tech, patterns] of Object.entries(keywords)) {
-        if (patterns.some(p => searchText.includes(p))) {
-            techniques.push(tech);
-            if (techniques.length >= 4) break; // Max 4 badges per card
-        }
-    }
-    
-    return techniques;
-}
-
 // Render Write-ups
 async function renderWriteups(repos) {
     const container = document.getElementById('writeupsList');
@@ -145,7 +74,7 @@ async function renderWriteups(repos) {
         card.setAttribute('data-platform', platform);
         
         card.innerHTML = `
-            <span class="writeup-platform ${platform}">${formatPlatformName(platform)}</span>
+            <span class="writeup-platform ${platform}">${platform}</span>
             <h3 class="writeup-title">${repo.name}</h3>
             ${techniques.length > 0 ? `
                 <div class="writeup-technique">
@@ -170,15 +99,31 @@ function detectPlatform(name, description) {
     return 'other';
 }
 
-// Format Platform Name for Display
-function formatPlatformName(platform) {
-    const names = {
-        'tryhackme': 'TryHackMe',
-        'portswigger': 'PortSwigger',
-        'hackthebox': 'HackTheBox',
-        'other': 'Other'
+// Extract Techniques from Repo (stub)
+async function extractTechniques(repo) {
+    // This is a placeholder - in production, you'd fetch the README
+    const description = repo.description || '';
+    const techniques = [];
+    
+    const keywords = {
+        'XSS': ['xss', 'cross-site', 'stored', 'reflected'],
+        'SQLi': ['sql', 'injection', 'sqli'],
+        'IDOR': ['idor', 'insecure direct'],
+        'PrivEsc': ['privesc', 'privilege', 'escalation'],
+        'RCE': ['rce', 'code execution'],
+        'XXE': ['xxe', 'xml'],
+        'LFI': ['lfi', 'local file', 'include'],
+        'AD': ['active directory', 'ad', 'domain'],
+        'Burp': ['burp', 'burpsuite'],
     };
-    return names[platform] || 'Other';
+    
+    for (const [tech, patterns] of Object.entries(keywords)) {
+        if (patterns.some(p => description.toLowerCase().includes(p))) {
+            techniques.push(tech);
+        }
+    }
+    
+    return techniques.slice(0, 3); // Max 3 badges
 }
 
 // Setup Filter Buttons
