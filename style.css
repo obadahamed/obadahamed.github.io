@@ -732,3 +732,31 @@ a:hover {
         grid-template-columns: 1fr;
     }
 }
+/* Write-up card extras */
+.writeup-desc {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 0.8rem;
+    flex-grow: 1;
+}
+
+.writeup-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.writeup-date {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+}
+
+.writeup-platform.other {
+    background: rgba(139, 148, 158, 0.2);
+    color: #8b949e;
+    border: 1px solid #8b949e;
+}
