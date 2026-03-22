@@ -1,82 +1,589 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Page Title</title>
-    <style>
-        /* CSS Tokens for Surface Elevation */
-        .elevation {
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NEPHOS — Obada Hamed</title>
+  <meta name="description" content="Obada Hamed (NEPHOS) — Cybersecurity student focused on Red Team operations, web security, and CTFs. Portfolio with projects, writeups, certifications, and contact." />
+  <meta name="theme-color" content="#0b0b0b" />
 
-        /* Adjust Background Gradients/Glow/Scanlines Opacity */
-        .background {
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.1));
-        }
+  <meta property="og:title" content="NEPHOS — Obada Hamed" />
+  <meta property="og:description" content="Modern cyber portfolio: projects, CTF writeups, certifications, and contact." />
+  <meta property="og:type" content="website" />
 
-        /* Improve Section Spacing and Card Depth */
-        .section {
-            padding: 2rem;
-        }
-        .card {
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 8px;
-        }
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
-        /* Focus-visible Styles */
-        :focus-visible {
-            outline: 2px solid blue;
-        }
+  <style>
+    :root{
+      --bg: #070707;
+      --bg2:#0b0b0b;
+      --panel:#0f0f10;
+      --panel2:#111114;
+      --border:#1d1d22;
 
-        /* Cursor Fallback for Touch Devices */
-        @media (hover: none) {
-            .button {
-                cursor: pointer;
-            }
-        }
+      --txt:#d5d5d8;
+      --muted:#9a9aa6;
+      --dim:#6b6b75;
 
-        /* Hamburger Menu Styles */
-        .hamburger {
-            display: none;
-            cursor: pointer;
-        }
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
-            .nav-links {
-                display: none;
-            }
-            .nav-active .nav-links {
-                display: block;
-            }
-        }
-    </style>
+      --accent:#FFB800;
+      --accent2:#39FF14;
+      --danger:#ff6b6b;
+
+      --shadow: 0 18px 50px rgba(0,0,0,.55);
+      --shadow2: 0 10px 25px rgba(0,0,0,.42);
+
+      --radius: 14px;
+      --radius2: 18px;
+
+      --max: 1120px;
+      --navH: 70px;
+
+      --scanOpacity: .09;
+      --gridOpacity: .055;
+      --glowOpacity: .12;
+
+      color-scheme: dark;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: "DM Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 700px at 18% 10%, rgba(255,184,0,var(--glowOpacity)) 0%, rgba(255,184,0,0) 60%),
+                  radial-gradient(900px 600px at 90% 25%, rgba(57,255,20,.06) 0%, rgba(57,255,20,0) 55%),
+                  linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+      color: var(--txt);
+      overflow-x:hidden;
+      cursor: none;
+    }
+
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0) 0px,
+        rgba(0,0,0,0) 2px,
+        rgba(0,0,0,var(--scanOpacity)) 3px,
+        rgba(0,0,0,var(--scanOpacity)) 4px
+      );
+      opacity:.85;
+      z-index: 10;
+      mix-blend-mode: soft-light;
+    }
+
+    body::after{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,184,0,var(--gridOpacity)) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,184,0,var(--gridOpacity)) 1px, transparent 1px);
+      background-size: 64px 64px;
+      opacity: 1;
+      z-index: 9;
+    }
+
+    ::selection{background:var(--accent); color:#000}
+    a{color:inherit}
+    img{max-width:100%; display:block}
+
+    .wrap{max-width: var(--max); margin: 0 auto; padding: 0 24px;}
+
+    :focus-visible{outline: 2px solid rgba(255,184,0,.9); outline-offset: 3px; border-radius: 10px;}
+
+    @media (prefers-reduced-motion: reduce){
+      html{scroll-behavior:auto}
+      *{animation:none !important; transition:none !important}
+      .cursor, .cursor-ring{display:none !important}
+      body{cursor:auto}
+    }
+
+    .cursor, .cursor-ring{
+      position: fixed;
+      left: 0; top: 0;
+      pointer-events:none;
+      z-index: 9999;
+      transform: translate(-999px, -999px);
+    }
+    .cursor{
+      width: 10px; height:10px;
+      border-radius: 50%;
+      background: var(--accent);
+      mix-blend-mode: difference;
+      transition: transform .08s ease;
+    }
+    .cursor-ring{
+      width: 34px; height:34px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,184,0,.9);
+      opacity:.55;
+      transition: transform .18s ease, opacity .18s ease;
+    }
+
+    @media (hover: none), (pointer: coarse){
+      body{cursor:auto}
+      .cursor, .cursor-ring{display:none}
+      button, a{cursor:pointer}
+    }
+
+    .nav{
+      position: fixed;
+      top:0; left:0; right:0;
+      height: var(--navH);
+      z-index: 100;
+      background: rgba(8,8,8,.78);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-in{height: 100%; display:flex; align-items:center; justify-content: space-between; gap: 18px;}
+
+    .brand{display:flex; align-items:baseline; gap:10px; text-decoration:none;}
+    .brand .logo{font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; letter-spacing: .18em; font-weight: 700; font-size: .95rem; color: var(--accent);}
+    .brand .dot{color: rgba(213,213,216,.4); letter-spacing: .12em; font-weight: 400; font-size: .82rem;}
+
+    .nav-actions{display:flex; align-items:center; gap: 10px;}
+
+    .nav-links{display:flex; gap: 18px; align-items:center; list-style:none; margin:0; padding:0;}
+    .nav-links a{text-decoration:none; font-size: .78rem; text-transform: uppercase; letter-spacing: .08em; color: rgba(213,213,216,.6); transition: color .15s ease; padding: 10px 8px; border-radius: 10px;}
+    .nav-links a:hover{color: var(--accent);}
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap: 10px;
+      border: 1px solid transparent; padding: 10px 14px; border-radius: 12px;
+      text-decoration:none; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: .72rem;
+      transition: transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease;
+      user-select:none; cursor:none;
+    }
+    .btn:active{transform: translateY(1px)}
+    .btn-primary{background: var(--accent); color:#000;}
+    .btn-primary:hover{background:#fff}
+    .btn-ghost{background: rgba(255,184,0,.06); color: var(--accent); border-color: rgba(255,184,0,.18);}
+    .btn-ghost:hover{border-color: rgba(255,184,0,.45); background: rgba(255,184,0,.10);}
+
+    .hamb{display:none; width: 44px; height: 44px; border-radius: 12px; border: 1px solid rgba(255,184,0,.18); background: rgba(255,184,0,.06); color: var(--accent); cursor:none;}
+
+    @media (max-width: 860px){.nav-links{display:none} .hamb{display:inline-flex; align-items:center; justify-content:center}}
+
+    .drawer{
+      display:none;
+      position: fixed;
+      top: var(--navH);
+      left:0; right:0;
+      background: rgba(10,10,10,.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+    }
+    .drawer ul{list-style:none; margin:0; padding: 12px 18px 18px; display:flex; flex-direction:column; gap: 6px;}
+    .drawer a{display:block; padding: 12px 10px; text-decoration:none; border-radius: 12px; color: rgba(213,213,216,.78); border: 1px solid transparent;}
+    .drawer a:hover{border-color: rgba(255,184,0,.22); background: rgba(255,184,0,.06); color: var(--accent);}
+    .drawer.open{display:block}
+
+    main{padding-top: calc(var(--navH) + 34px)}
+    section{padding: 64px 0}
+
+    .hero{padding: 60px 0 30px; position:relative;}
+    .hero-grid{position:absolute; inset: -60px 0 auto 0; height: 520px; pointer-events:none;
+      background:
+        radial-gradient(600px 300px at 18% 35%, rgba(255,184,0,.10), rgba(255,184,0,0) 70%),
+        radial-gradient(560px 280px at 82% 20%, rgba(57,255,20,.08), rgba(57,255,20,0) 70%);
+      z-index: 1;
+    }
+
+    .hero-in{position:relative; z-index: 2; display:grid; grid-template-columns: 1.1fr .9fr; gap: 26px; align-items: start;}
+    @media (max-width: 980px){.hero-in{grid-template-columns: 1fr; gap: 18px}}
+
+    .kicker{display:inline-flex; align-items:center; gap: 12px; font-family: "DM Mono", ui-monospace, monospace; font-size: .72rem; letter-spacing:.18em; text-transform: uppercase; color: rgba(255,184,0,.95);}
+    .kicker::before{content:""; width: 34px; height:1px; background: rgba(255,184,0,.9);}
+
+    .h1{margin: 14px 0 10px; font-family: "Outfit", system-ui, sans-serif; font-weight: 850; letter-spacing: -0.03em; line-height: .95; font-size: clamp(2.7rem, 6vw, 5.4rem); color:#fff;}
+    .h1 .accent{color: var(--accent)}
+    .sub{margin: 0 0 18px; color: rgba(213,213,216,.72); font-size: 1.02rem; line-height: 1.65; max-width: 58ch;}
+    .hero-cta{display:flex; flex-wrap: wrap; gap: 10px; margin-top: 18px;}
+
+    .cards{display:grid; gap: 12px;}
+    .card{background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); border: 1px solid rgba(255,184,0,.10); border-radius: var(--radius2); box-shadow: var(--shadow2); overflow:hidden; position:relative;}
+    .card::before{content:""; position:absolute; left:0; top:0; width: 3px; height:100%; background: linear-gradient(180deg, rgba(255,184,0,.9), rgba(57,255,20,.55)); opacity:.7;}
+    .card-in{padding: 18px 18px 16px 18px;}
+    .card-title{display:flex; justify-content: space-between; gap: 12px; align-items:baseline; margin-bottom: 8px;}
+    .card-title h3{margin:0; font-family:"Outfit", system-ui, sans-serif; font-size: 1.02rem; color:#fff; letter-spacing: -0.02em;}
+    .tag{font-family:"DM Mono", ui-monospace, monospace; font-size: .68rem; letter-spacing:.14em; text-transform: uppercase; color: rgba(213,213,216,.55); border: 1px solid rgba(255,255,255,.10); padding: 6px 8px; border-radius: 999px; white-space:nowrap;}
+
+    .metrics{display:grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px;}
+    .metric{border: 1px solid rgba(255,255,255,.08); background: rgba(0,0,0,.25); border-radius: 14px; padding: 12px 12px;}
+    .metric .n{font-family:"Outfit", system-ui, sans-serif; font-weight: 800; color: var(--accent); font-size: 1.35rem; line-height: 1;}
+    .metric .l{margin-top: 6px; font-size: .74rem; letter-spacing:.10em; text-transform: uppercase; color: rgba(213,213,216,.55);}
+
+    .sec-hd{display:flex; align-items:center; gap: 12px; margin-bottom: 18px;}
+    .sec-num{font-family:"DM Mono", ui-monospace, monospace; font-size: .72rem; letter-spacing:.22em; color: rgba(255,184,0,.95);}
+    .sec-title{font-family:"Outfit", system-ui, sans-serif; font-size: 1.9rem; color:#fff; letter-spacing: -0.02em; margin:0;}
+    .sec-line{flex: 1; height: 1px; background: rgba(255,255,255,.09); max-width: 220px;}
+    .sec-sub{margin: 0 0 22px; color: rgba(213,213,216,.65); line-height: 1.8; max-width: 82ch;}
+
+    .about{background: rgba(255,255,255,.02); border-top: 1px solid rgba(255,255,255,.06); border-bottom: 1px solid rgba(255,255,255,.06);}
+    .about-grid{display:grid; grid-template-columns: 1.2fr .8fr; gap: 22px; align-items:start;}
+    @media (max-width: 980px){.about-grid{grid-template-columns: 1fr}}
+    .about p{margin:0 0 12px; line-height: 1.9; color: rgba(213,213,216,.78)}
+    .about strong{color: var(--accent); font-weight: 650}
+    .info{background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius2); overflow:hidden;}
+    .row{display:flex; justify-content: space-between; gap: 14px; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.06); font-size: .86rem;}
+    .row:last-child{border-bottom:none}
+    .k{color: rgba(213,213,216,.55); letter-spacing:.06em}
+    .v{color: var(--accent); font-weight: 650}
+
+    .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap: 12px;}
+    .col-6{grid-column: span 6}
+    .col-4{grid-column: span 4}
+    @media (max-width: 980px){.col-6,.col-4{grid-column: span 12}}
+
+    .box{background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius2); padding: 16px; box-shadow: var(--shadow2);}
+    .box-hd{display:flex; align-items:center; justify-content: space-between; gap: 12px; margin-bottom: 10px;}
+    .box-hd .t{font-family:"DM Mono", ui-monospace, monospace; font-size: .72rem; letter-spacing:.22em; text-transform: uppercase; color: rgba(255,184,0,.92);}
+    .pill{font-size: .68rem; letter-spacing:.14em; text-transform: uppercase; border: 1px solid rgba(255,255,255,.10); color: rgba(213,213,216,.55); padding: 5px 8px; border-radius: 999px; white-space:nowrap;}
+    .tags{display:flex; flex-wrap: wrap; gap: 8px;}
+    .tag2{border: 1px solid rgba(255,255,255,.10); background: rgba(255,184,0,.05); padding: 7px 10px; border-radius: 999px; font-size: .82rem; color: rgba(213,213,216,.85); transition: border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease;}
+    .tag2:hover{transform: translateY(-1px); border-color: rgba(255,184,0,.35); color: var(--accent); background: rgba(255,184,0,.08);}
+
+    .cards-grid{display:grid; grid-template-columns: repeat(12, 1fr); gap: 12px;}
+    .proj{grid-column: span 6}
+    @media (max-width: 980px){.proj{grid-column: span 12}}
+
+    .proj a{display:block; text-decoration:none; height:100%;}
+    .projCard{height:100%; border-radius: var(--radius2); border: 1px solid rgba(255,255,255,.09); background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); box-shadow: var(--shadow2); padding: 16px; position:relative; overflow:hidden; transition: transform .15s ease, border-color .15s ease, background .15s ease;}
+    .projCard::after{content:""; position:absolute; inset: -120px -120px auto auto; width: 260px; height: 260px; background: radial-gradient(circle, rgba(255,184,0,.14) 0%, rgba(255,184,0,0) 70%); transform: rotate(12deg); opacity:.8; pointer-events:none;}
+    .projCard:hover{transform: translateY(-2px); border-color: rgba(255,184,0,.25); background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));}
+    .projTop{display:flex; align-items:flex-start; justify-content: space-between; gap: 12px; margin-bottom: 10px; position:relative; z-index:1;}
+    .projIcon{font-size: 1.1rem; opacity:.95;}
+    .projTag{font-family:"DM Mono", ui-monospace, monospace; font-size: .68rem; letter-spacing:.14em; text-transform: uppercase; border: 1px solid rgba(255,255,255,.10); padding: 6px 8px; border-radius: 999px; color: rgba(213,213,216,.55); white-space:nowrap;}
+    .projName{margin: 0 0 6px; font-weight: 800; color:#fff; letter-spacing: -0.01em; font-size: 1rem; position:relative; z-index:1;}
+    .projDesc{margin:0; color: rgba(213,213,216,.62); line-height: 1.7; font-size: .92rem; position:relative; z-index:1;}
+
+    .list{border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius2); overflow:hidden; background: rgba(0,0,0,.22); box-shadow: var(--shadow2);}
+    .item{display:flex; align-items:center; justify-content: space-between; gap: 12px; padding: 14px 14px; border-bottom: 1px solid rgba(255,255,255,.06); text-decoration:none; transition: background .15s ease, border-color .15s ease;}
+    .item:last-child{border-bottom:none}
+    .item:hover{background: rgba(255,184,0,.06)}
+    .i-left{min-width: 0;}
+    .i-name{margin:0; font-weight: 800; color:#fff; letter-spacing: -0.01em; font-size: .98rem;}
+    .i-meta{margin: 6px 0 0; color: rgba(213,213,216,.62); font-size: .86rem; line-height: 1.6;}
+    .badge{font-family:"DM Mono", ui-monospace, monospace; font-size: .70rem; letter-spacing:.14em; text-transform: uppercase; padding: 6px 9px; border-radius: 999px; border: 1px solid; white-space:nowrap;}
+    .b-easy{color: var(--accent2); border-color: rgba(57,255,20,.50)}
+    .b-med{color: var(--accent); border-color: rgba(255,184,0,.50)}
+    .arr{color: rgba(213,213,216,.55); font-size: .9rem; margin-left: 6px;}
+
+    .certGrid{display:grid; grid-template-columns: repeat(12,1fr); gap: 12px;}
+    .cert{grid-column: span 4}
+    @media (max-width: 980px){.cert{grid-column: span 6}}
+    @media (max-width: 620px){.cert{grid-column: span 12}}
+
+    .certCard{border: 1px solid rgba(255,255,255,.09); border-radius: var(--radius2); background: rgba(0,0,0,.22); padding: 16px; box-shadow: var(--shadow2); height: 100%;}
+    .certName{margin: 0 0 6px; font-weight: 850; color:#fff}
+    .certOrg{margin:0 0 10px; font-family:"DM Mono", ui-monospace, monospace; color: rgba(255,184,0,.85); letter-spacing:.10em; font-size: .78rem; text-transform: uppercase;}
+    .certNote{margin:0; color: rgba(213,213,216,.62); line-height:1.7; font-size: .90rem;}
+
+    .contact{background: rgba(255,255,255,.02); border-top: 1px solid rgba(255,255,255,.06);}
+    .contactIn{text-align:center;}
+    .big{margin:0 0 8px; font-family:"Outfit", system-ui, sans-serif; font-weight: 900; letter-spacing:-0.03em; font-size: clamp(2rem, 4.6vw, 3.8rem); color:#fff;}
+    .big .accent{color: var(--accent)}
+    .contactP{margin: 0 auto 18px; max-width: 70ch; color: rgba(213,213,216,.65); line-height: 1.9;}
+    .links{display:flex; gap: 10px; justify-content:center; flex-wrap: wrap; margin-top: 18px;}
+    .linkBtn{border: 1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.22); border-radius: 999px; padding: 12px 14px; text-decoration:none; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: .74rem; transition: transform .15s ease, border-color .15s ease, background .15s ease, color .15s ease; cursor:none; color: rgba(213,213,216,.85);}
+    .linkBtn:hover{transform: translateY(-1px); border-color: rgba(255,184,0,.28); background: rgba(255,184,0,.06); color: var(--accent);}
+
+    footer{border-top: 1px solid rgba(255,255,255,.08); padding: 18px 0; color: rgba(213,213,216,.48); font-size: .78rem; letter-spacing:.08em;}
+    .foot{display:flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;}
+
+    .muted{color: rgba(213,213,216,.62)}
+    .mono{font-family:"DM Mono", ui-monospace, monospace}
+  </style>
 </head>
+
 <body>
-    <header>
-        <div class="hamburger" onclick="toggleNav()">☰</div>
-        <nav class="nav-links">
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section class="section">
-            <div class="card elevation">
-                <h2>Welcome to My Page</h2>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="wrap nav-in">
+      <a class="brand" href="#top" aria-label="Go to top">
+        <span class="logo">NEPHOS</span>
+        <span class="dot">.sh</span>
+      </a>
+
+      <nav aria-label="Primary">
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#writeups">Writeups</a></li>
+          <li><a href="#certs">Certifications</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn btn-ghost" href="https://tryhackme.com/p/NEPHOS" target="_blank" rel="noopener">TryHackMe</a>
+        <a class="btn btn-primary" href="https://github.com/obadahamed" target="_blank" rel="noopener">GitHub</a>
+        <button class="hamb" id="hamb" type="button" aria-expanded="false" aria-controls="drawer" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+
+    <div class="drawer" id="drawer" role="dialog" aria-label="Mobile menu">
+      <ul>
+        <li><a href="#about" data-close>About</a></li>
+        <li><a href="#skills" data-close>Skills</a></li>
+        <li><a href="#projects" data-close>Projects</a></li>
+        <li><a href="#writeups" data-close>Writeups</a></li>
+        <li><a href="#certs" data-close>Certifications</a></li>
+        <li><a href="#contact" data-close>Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+
+      <div class="wrap hero-in">
+        <div>
+          <div class="kicker">Cybersecurity • Red Team • Web Security</div>
+          <h1 class="h1">Obada <br /><span class="accent">Hamed</span></h1>
+
+          <p class="sub">
+            I’m <span class="mono">NEPHOS</span> — a cybersecurity student focused on hands-on web exploitation,
+            methodology-driven learning, and clear reporting. I build projects, write CTF walkthroughs, and keep
+            improving one lab at a time.
+          </p>
+
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#projects">View Work</a>
+            <a class="btn btn-ghost" href="https://www.linkedin.com/in/obadahamed" target="_blank" rel="noopener">LinkedIn</a>
+            <a class="btn btn-ghost" href="#contact">Contact</a>
+          </div>
+
+          <p class="muted" style="margin-top:14px; line-height:1.8;">
+            <span class="mono">&gt;</span> Strengths: reconnaissance, web fundamentals, Burp workflows, disciplined writeups.
+          </p>
+        </div>
+
+        <aside class="cards">
+          <div class="card">
+            <div class="card-in">
+              <div class="card-title">
+                <h3>Snapshot</h3>
+                <span class="tag">Candidate-ready</span>
+              </div>
+              <p class="muted" style="margin:0; line-height:1.8;">Built to be read fast by recruiters and technical reviewers — proof, links, and outcomes first.</p>
+
+              <div class="metrics" aria-label="Highlights">
+                <div class="metric"><div class="n">Top 30K</div><div class="l">TryHackMe Rank</div></div>
+                <div class="metric"><div class="n">CTF</div><div class="l">Writeups & Notes</div></div>
+                <div class="metric"><div class="n">Web</div><div class="l">Security Focus</div></div>
+                <div class="metric"><div class="n">Labs</div><div class="l">Daily Practice</div></div>
+              </div>
             </div>
-        </section>
-    </main>
-    <script>
-        function toggleNav() {
-            document.body.classList.toggle('nav-active');
-        }
-    </script>
+          </div>
+
+          <div class="card">
+            <div class="card-in">
+              <div class="card-title">
+                <h3>Quick Links</h3>
+                <span class="tag">Verified</span>
+              </div>
+              <p class="muted" style="margin:0 0 10px; line-height:1.8;">Direct sources of truth: code, labs, and platforms.</p>
+              <div class="tags">
+                <a class="tag2" href="https://github.com/obadahamed" target="_blank" rel="noopener">GitHub</a>
+                <a class="tag2" href="https://tryhackme.com/p/NEPHOS" target="_blank" rel="noopener">TryHackMe</a>
+                <a class="tag2" href="https://portswigger.net" target="_blank" rel="noopener">PortSwigger</a>
+                <a class="tag2" href="https://www.linkedin.com/in/obadahamed" target="_blank" rel="noopener">LinkedIn</a>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="about" id="about">
+      <div class="wrap">
+        <div class="sec-hd"><span class="sec-num">01</span><h2 class="sec-title">About</h2><div class="sec-line"></div></div>
+        <p class="sec-sub">I’m a cybersecurity student from Syria. I learn through structured content and validate skills with hands‑on labs. My workflow: enumerate, understand, exploit methodically, document clearly.</p>
+
+        <div class="about-grid">
+          <div>
+            <p>I’m focused on <strong>Red Team operations</strong> and <strong>web application security</strong>. I practice using TryHackMe rooms and PortSwigger labs, and I document the process to sharpen both technique and communication.</p>
+            <p>What you can expect: clean writeups, repeatable methodology, and consistent learning cadence.</p>
+          </div>
+
+          <div class="info" role="list" aria-label="Profile details">
+            <div class="row" role="listitem"><span class="k">Alias</span><span class="v">NEPHOS</span></div>
+            <div class="row" role="listitem"><span class="k">Location</span><span class="v">Syria</span></div>
+            <div class="row" role="listitem"><span class="k">Focus</span><span class="v">Red Team / Web Security</span></div>
+            <div class="row" role="listitem"><span class="k">Platform</span><span class="v">TryHackMe</span></div>
+            <div class="row" role="listitem"><span class="k">Style</span><span class="v">Hands-on + Writeups</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="wrap">
+        <div class="sec-hd"><span class="sec-num">02</span><h2 class="sec-title">Skills</h2><div class="sec-line"></div></div>
+        <p class="sec-sub">A practical toolkit that supports reconnaissance, exploitation workflows, and clean reporting.</p>
+
+        <div class="grid">
+          <div class="box col-6">
+            <div class="box-hd"><div class="t">Offensive</div><div class="pill">Web + Recon</div></div>
+            <div class="tags">
+              <span class="tag2">Burp Suite</span><span class="tag2">Nmap</span><span class="tag2">Gobuster</span><span class="tag2">Hydra</span><span class="tag2">Metasploit</span><span class="tag2">SQLMap</span><span class="tag2">Kali Linux</span>
+            </div>
+          </div>
+
+          <div class="box col-6">
+            <div class="box-hd"><div class="t">CTF</div><div class="pill">Methodology</div></div>
+            <div class="tags">
+              <span class="tag2">CyberChef</span><span class="tag2">Netcat</span><span class="tag2">John the Ripper</span><span class="tag2">Binwalk</span><span class="tag2">Steghide</span><span class="tag2">Hash Cracking</span><span class="tag2">Base64</span>
+            </div>
+          </div>
+
+          <div class="box col-4">
+            <div class="box-hd"><div class="t">Programming</div><div class="pill">Automation</div></div>
+            <div class="tags"><span class="tag2">Python</span><span class="tag2">Bash</span><span class="tag2">PowerShell</span><span class="tag2">SQL</span></div>
+          </div>
+
+          <div class="box col-4">
+            <div class="box-hd"><div class="t">Networking</div><div class="pill">Foundations</div></div>
+            <div class="tags"><span class="tag2">TCP/IP</span><span class="tag2">DNS</span><span class="tag2">HTTP/S</span><span class="tag2">Wireshark</span><span class="tag2">CCNA Background</span></div>
+          </div>
+
+          <div class="box col-4">
+            <div class="box-hd"><div class="t">Reporting</div><div class="pill">Clarity</div></div>
+            <div class="tags"><span class="tag2">Writeups</span><span class="tag2">Notes</span><span class="tag2">Attack Mapping</span><span class="tag2">Repro Steps</span><span class="tag2">Clean Structure</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="wrap">
+        <div class="sec-hd"><span class="sec-num">03</span><h2 class="sec-title">Projects</h2><div class="sec-line"></div></div>
+        <p class="sec-sub">Selected repos that show consistency: research, labs, and writeups. (Click to open on GitHub.)</p>
+
+        <div class="cards-grid" role="list">
+          <div class="proj" role="listitem"><a href="https://github.com/obadahamed/Threat-Detection-Report-2022-Analysis" target="_blank" rel="noopener"><div class="projCard"><div class="projTop"><div class="projIcon">🔍</div><div class="projTag">Blue Team</div></div><h3 class="projName">Threat Detection Report 2022</h3><p class="projDesc">SOC-style analysis with MITRE ATT&CK mapping and detection engineering notes.</p></div></a></div>
+          <div class="proj" role="listitem"><a href="https://github.com/obadahamed/PortSwigger-Labs" target="_blank" rel="noopener"><div class="projCard"><div class="projTop"><div class="projIcon">🌐</div><div class="projTag">Web Security</div></div><h3 class="projName">PortSwigger Labs</h3><p class="projDesc">SQLi, XSS, and core web vulnerabilities — writeups with payloads + reasoning.</p></div></a></div>
+          <div class="proj" role="listitem"><a href="https://github.com/obadahamed/TRY-HACK-ME" target="_blank" rel="noopener"><div class="projCard"><div class="projTop"><div class="projIcon">🚩</div><div class="projTag">CTF</div></div><h3 class="projName">TryHackMe</h3><p class="projDesc">Room notes + CTF writeups + learning path progress documentation.</p></div></a></div>
+          <div class="proj" role="listitem"><a href="https://github.com/obadahamed/Privilege-Escalation" target="_blank" rel="noopener"><div class="projCard"><div class="projTop"><div class="projIcon">🔺</div><div class="projTag">Privilege Esc</div></div><h3 class="projName">Privilege Escalation</h3><p class="projDesc">Linux & Windows privesc notes, commands, references, and repeatable checks.</p></div></a></div>
+          <div class="proj" role="listitem"><a href="https://github.com/obadahamed/Tools-and-Scripts" target="_blank" rel="noopener"><div class="projCard"><div class="projTop"><div class="projIcon">🐍</div><div class="projTag">Python</div></div><h3 class="projName">Tools & Scripts</h3><p class="projDesc">Small security utilities (e.g., scanning / recon helpers) built for practice.</p></div></a></div>
+          <div class="proj" role="listitem"><a href="https://github.com/obadahamed/Google-Cybersecurity-Notes" target="_blank" rel="noopener"><div class="projCard"><div class="projTop"><div class="projIcon">🎓</div><div class="projTag">Notes</div></div><h3 class="projName">Google Cybersecurity Notes</h3><p class="projDesc">Structured notes across the certificate courses, cleaned and organized.</p></div></a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="writeups">
+      <div class="wrap">
+        <div class="sec-hd"><span class="sec-num">04</span><h2 class="sec-title">CTF Writeups</h2><div class="sec-line"></div></div>
+        <p class="sec-sub">Recruiters love this section because it proves: process, persistence, and communication.</p>
+
+        <div class="list" role="list">
+          <a class="item" role="listitem" href="https://github.com/obadahamed/TRY-HACK-ME/blob/main/CTF/Mr.Robot.md" target="_blank" rel="noopener"><div class="i-left"><p class="i-name">Mr. Robot CTF</p><p class="i-meta">TryHackMe · WordPress · RCE · SUID Privesc · 3 Keys</p></div><div style="display:flex; align-items:center; gap:10px;"><span class="badge b-med">Medium</span><span class="arr">→</span></div></a>
+          <a class="item" role="listitem" href="https://github.com/obadahamed/TRY-HACK-ME/blob/main/CTF/Brooklyn_Nine_Nine.md" target="_blank" rel="noopener"><div class="i-left"><p class="i-name">Brooklyn Nine Nine</p><p class="i-meta">TryHackMe · Hydra · FTP · Enumeration</p></div><div style="display:flex; align-items:center; gap:10px;"><span class="badge b-easy">Easy</span><span class="arr">→</span></div></a>
+          <a class="item" role="listitem" href="https://github.com/obadahamed/TRY-HACK-ME/blob/main/CTF/Agent_Sudo.md" target="_blank" rel="noopener"><div class="i-left"><p class="i-name">Agent Sudo</p><p class="i-meta">TryHackMe · Stego · FTP Brute-Force · CVE-2019-14287</p></div><div style="display:flex; align-items:center; gap:10px;"><span class="badge b-easy">Easy</span><span class="arr">→</span></div></a>
+          <a class="item" role="listitem" href="https://github.com/obadahamed/TRY-HACK-ME/blob/main/CTF/Bounty_Hacker.md" target="_blank" rel="noopener"><div class="i-left"><p class="i-name">Bounty Hacker</p><p class="i-meta">TryHackMe · Anonymous FTP · SSH · sudo tar privesc</p></div><div style="display:flex; align-items:center; gap:10px;"><span class="badge b-easy">Easy</span><span class="arr">→</span></div></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="certs">
+      <div class="wrap">
+        <div class="sec-hd"><span class="sec-num">05</span><h2 class="sec-title">Certifications</h2><div class="sec-line"></div></div>
+        <p class="sec-sub">Proof of consistent learning + time invested. Keep this updated — it’s a strong HR signal.</p>
+
+        <div class="certGrid" role="list">
+          <div class="cert" role="listitem"><div class="certCard"><h3 class="certName">Google Cybersecurity Certificate</h3><div class="certOrg">Google / Coursera</div><p class="certNote">Completed (8/8). Strong foundation across SOC workflows and security basics.</p></div></div>
+          <div class="cert" role="listitem"><div class="certCard"><h3 class="certName">Jr Penetration Tester</h3><div class="certOrg">TryHackMe</div><p class="certNote">Practical learning path covering core offensive workflows and tooling.</p></div></div>
+          <div class="cert" role="listitem"><div class="certCard"><h3 class="certName">Cyber Security 101</h3><div class="certOrg">TryHackMe</div><p class="certNote">Solid baseline that complements lab work and writeups.</p></div></div>
+          <div class="cert" role="listitem"><div class="certCard"><h3 class="certName">Web Fundamentals</h3><div class="certOrg">TryHackMe</div><p class="certNote">Fundamentals of how web apps work — helps reduce guessing in testing.</p></div></div>
+          <div class="cert" role="listitem"><div class="certCard"><h3 class="certName">Advent of Cyber</h3><div class="certOrg">TryHackMe</div><p class="certNote">Hands-on seasonal challenges — consistent problem-solving signal.</p></div></div>
+          <div class="cert" role="listitem"><div class="certCard"><h3 class="certName">Cisco CyberOps Associate</h3><div class="certOrg">Cisco</div><p class="certNote">In progress — adds defensive/SOC depth alongside offensive practice.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="wrap contactIn">
+        <h2 class="big">Let’s <span class="accent">Connect</span></h2>
+        <p class="contactP">Open to internships, junior roles, collaborations, and CTF teams. If you’re hiring: I’m easy to evaluate — just check the repos and writeups.</p>
+
+        <div class="links" aria-label="Contact links">
+          <a class="linkBtn" href="https://github.com/obadahamed" target="_blank" rel="noopener">⬡ GitHub</a>
+          <a class="linkBtn" href="https://www.linkedin.com/in/obadahamed" target="_blank" rel="noopener">⬡ LinkedIn</a>
+          <a class="linkBtn" href="https://tryhackme.com/p/NEPHOS" target="_blank" rel="noopener">⬡ TryHackMe</a>
+          <a class="linkBtn" href="https://portswigger.net" target="_blank" rel="noopener">⬡ PortSwigger</a>
+        </div>
+
+        <p class="muted" style="margin-top:18px;"><span class="mono">&gt;</span> Tip: add an email link here when you’re ready.</p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="wrap foot">
+        <span>© 2026 Obada Hamed — <span class="mono">NEPHOS</span></span>
+        <span>obadahamed.github.io</span>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      var hamb = document.getElementById('hamb');
+      var drawer = document.getElementById('drawer');
+      if (!hamb || !drawer) return;
+
+      function setOpen(open) {
+        drawer.classList.toggle('open', open);
+        hamb.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+
+      hamb.addEventListener('click', function () {
+        var open = drawer.classList.contains('open');
+        setOpen(!open);
+      });
+
+      drawer.querySelectorAll('[data-close]').forEach(function (a) {
+        a.addEventListener('click', function () { setOpen(false); });
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') setOpen(false);
+      });
+    }());
+
+    (function () {
+      var cursor = document.getElementById('cursor');
+      var ring = document.getElementById('cursorRing');
+      if (!cursor || !ring) return;
+
+      var isCoarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      var canHover = window.matchMedia && window.matchMedia('(hover: hover)').matches;
+      if (isCoarse || !canHover) return;
+
+      var mx = -999, my = -999, rx = -999, ry = -999;
+
+      document.addEventListener('mousemove', function (e) {
+        mx = e.clientX;
+        my = e.clientY;
+        cursor.style.transform = 'translate(' + (mx - 5) + 'px,' + (my - 5) + 'px)';
+      }, { passive: true });
+
+      function tick() {
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.transform = 'translate(' + (rx - 17) + 'px,' + (ry - 17) + 'px)';
+        requestAnimationFrame(tick);
+      }
+      tick();
+    }());
+  </script>
 </body>
 </html>
